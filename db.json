@@ -31,69 +31,6 @@
       "category": "23",
       "amount": 12000,
       "memo": "약국"
-    },
-    {
-      "date": "2026-04-03",
-      "type": "income",
-      "amount": "20000",
-      "category": "21",
-      "id": "3vpr5nk"
-    },
-    {
-      "date": "2026-04-03",
-      "type": "income",
-      "amount": "20000",
-      "category": "21",
-      "id": "puvfZMl"
-    },
-    {
-      "date": "2026-04-03",
-      "type": "income",
-      "amount": "20000",
-      "category": "21",
-      "id": "4Ho7y61"
-    },
-    {
-      "date": "2026-04-03",
-      "type": "income",
-      "amount": "20000",
-      "category": "21",
-      "id": "rTM23-T"
-    },
-    {
-      "date": "2026-04-03",
-      "type": "income",
-      "amount": "20000",
-      "category": "21",
-      "id": "JQanKKB"
-    },
-    {
-      "date": "2026-04-03",
-      "type": "income",
-      "amount": "20000",
-      "category": "21",
-      "id": "I4tDqnE"
-    },
-    {
-      "date": "2026-04-03",
-      "type": "income",
-      "amount": "20000",
-      "category": "21",
-      "id": "kLksRNk"
-    },
-    {
-      "date": "2026-04-03",
-      "type": "income",
-      "amount": "20000",
-      "category": "21",
-      "id": "LwqcY-W"
-    },
-    {
-      "date": "2026-04-03",
-      "type": "income",
-      "amount": "20000",
-      "category": "21",
-      "id": "Nfqt6oR"
     }
   ],
   "incomeCategory": [

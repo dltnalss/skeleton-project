@@ -12,17 +12,12 @@ import axios from 'axios';
 
 const BASEURI = '/api/budget';
 
-//지출 목록 조회
-const fetchList = async ()=>{
-    try{
-        const response = await axios.get(BASEURI);
-        if(response)
-    }
-}
-
-
-
-
+// //지출 목록 조회
+// const fetchList = async ()=>{
+//     try{
+//         const response = await axios.get(BASEURI);
+//         if(response)
+// }
 
 // 예산 추가하는 add
 // const states = reactive({ budgetList: [] });
@@ -43,8 +38,6 @@ const fetchList = async ()=>{
 //     alert('에러발생 :' + e);
 //   }
 // };
-
-
 
 // const d = {
 //   date: '2026-04-03',
