@@ -1,9 +1,13 @@
-<script setup>
-import TheWelcome from '../components/TheWelcome.vue'
+<template>
+  <div class="card card-body">
+    <h2>Transaction</h2>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'Transaction',
+};
 </script>
 
-<template>
-  <main>
-    <TheWelcome />
-  </main>
-</template>
+<style></style>
