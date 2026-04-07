@@ -1,0 +1,163 @@
+{
+  "budget": [
+    {
+      "id": "1",
+      "date": "2026-04-01",
+      "type": "income",
+      "amount": 3000000,
+      "category": "11",
+      "memo": "4월 월급"
+    },
+    {
+      "id": "2",
+      "date": "2026-04-02",
+      "type": "expense",
+      "category": "21",
+      "amount": 12000,
+      "memo": "회사 근처 한식"
+    },
+    {
+      "id": "3",
+      "date": "2026-04-01",
+      "type": "income",
+      "amount": 3000000,
+      "category": "12",
+      "memo": "4월 용돈"
+    },
+    {
+      "id": "4",
+      "date": "2026-04-02",
+      "type": "expense",
+      "category": "23",
+      "amount": 12000,
+      "memo": "약국"
+    },
+    {
+      "date": "2026-04-03",
+      "type": "income",
+      "amount": "20000",
+      "category": "21",
+      "id": "3vpr5nk"
+    },
+    {
+      "date": "2026-04-03",
+      "type": "income",
+      "amount": "20000",
+      "category": "21",
+      "id": "puvfZMl"
+    },
+    {
+      "date": "2026-04-03",
+      "type": "income",
+      "amount": "20000",
+      "category": "21",
+      "id": "4Ho7y61"
+    },
+    {
+      "date": "2026-04-03",
+      "type": "income",
+      "amount": "20000",
+      "category": "21",
+      "id": "rTM23-T"
+    },
+    {
+      "date": "2026-04-03",
+      "type": "income",
+      "amount": "20000",
+      "category": "21",
+      "id": "JQanKKB"
+    },
+    {
+      "date": "2026-04-03",
+      "type": "income",
+      "amount": "20000",
+      "category": "21",
+      "id": "I4tDqnE"
+    },
+    {
+      "date": "2026-04-03",
+      "type": "income",
+      "amount": "20000",
+      "category": "21",
+      "id": "kLksRNk"
+    },
+    {
+      "date": "2026-04-03",
+      "type": "income",
+      "amount": "20000",
+      "category": "21",
+      "id": "LwqcY-W"
+    },
+    {
+      "date": "2026-04-03",
+      "type": "income",
+      "amount": "20000",
+      "category": "21",
+      "id": "Nfqt6oR"
+    }
+  ],
+  "incomeCategory": [
+    {
+      "id": "11",
+      "name": "구직촉진수당"
+    },
+    {
+      "id": "12",
+      "name": "KDT훈련수당"
+    },
+    {
+      "id": "13",
+      "name": "KB지원금"
+    },
+    {
+      "id": "14",
+      "name": "용돈"
+    },
+    {
+      "id": "15",
+      "name": "기타"
+    }
+  ],
+  "expenseCategory": [
+    {
+      "id": "21",
+      "name": "식비"
+    },
+    {
+      "id": "22",
+      "name": "교통"
+    },
+    {
+      "id": "23",
+      "name": "의료"
+    },
+    {
+      "id": "24",
+      "name": "문화"
+    },
+    {
+      "id": "25",
+      "name": "기타"
+    }
+  ],
+  "profile": {
+    "name": "김멀티",
+    "email": "multi@kbits.com",
+    "currency": "KRW",
+    "startDayOfMonth": 1
+  },
+  "monthlyincome": [
+    {
+      "id": "30",
+      "totalamount": 3000000,
+      "category": "13"
+    }
+  ],
+  "monthlyexpense": [
+    {
+      "id": "40",
+      "totalamount": 3000000,
+      "category": "23"
+    }
+  ]
+}

@@ -4,10 +4,8 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'Transaction',
-};
+<script setup>
+
 </script>
 
 <style></style>
