@@ -1,8 +1,5 @@
 <template>
   <div class="card card-body">
-    <h2>Transaction</h2>
-    <TransactionHeader/>
-    
     <h2>가계부 내역</h2>
 
     <table>
@@ -21,11 +18,10 @@
       </tr>
     </table>
   </div>
-
 </template>
 
 <script setup>
-import TransactionHeader from '@/components/TransactionHeader.vue';
+import { useRouter } from 'vue-router';
 import { reactive } from 'vue';
 import axios from 'axios';
 
