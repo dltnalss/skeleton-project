@@ -11,10 +11,7 @@
   "dependencies": {
     "axios": "^1.14.0",
     "bootstrap": "^5.3.8",
-<<<<<<< HEAD
-=======
     "json-server": "^0.17.4",
->>>>>>> e61664e777fa3f6795964cedc2bca484c57580a9
     "pinia": "^3.0.4",
     "vue": "^3.5.30",
     "vue-router": "^5.0.3"
