@@ -8,9 +8,9 @@
     3. 이번 달 인사이트 (최대지출, 과소비, 절약)
     4. 최근 거래내역 5건 (클릭하면 상세 페이지로 이동)
   -->
-  <div style="padding: 16px; padding-bottom: 80px;">
-
+  <div style="padding: 16px; padding-bottom: 80px">
     <!--  1. 타이틀  -->
+
     <h5>나의 가계부</h5>
     <p>{{ profile.name }}님, 오늘도 알뜰한 하루 되세요!</p>
 
@@ -29,11 +29,11 @@
     <div>
       <div>
         <span>총 수입: </span>
-        <span style="color: blue;">{{ formatMoney(totalIncome) }}</span>
+        <span style="color: blue">{{ formatMoney(totalIncome) }}</span>
       </div>
       <div>
         <span>총 지출: </span>
-        <span style="color: red;">{{ formatMoney(totalExpense) }}</span>
+        <span style="color: red">{{ formatMoney(totalExpense) }}</span>
       </div>
       <div>
         <span>총계: </span>
@@ -43,7 +43,7 @@
       </div>
     </div>
 
-    <hr>
+    <hr />
 
     <!--  3. 이번 달 인사이트  -->
 
@@ -52,7 +52,9 @@
       <strong>최대 지출 카테고리</strong>
       <div v-if="topExpenseCategory">
         {{ topExpenseCategory.name }} -
-        <span style="color: red;">{{ formatMoney(topExpenseCategory.amount) }}</span>
+        <span style="color: red">{{
+          formatMoney(topExpenseCategory.amount)
+        }}</span>
       </div>
       <div v-else>지출 내역이 없습니다</div>
     </div>
@@ -62,7 +64,9 @@
       <strong>지난달 대비 과소비</strong>
       <div v-if="overspendCategory">
         {{ overspendCategory.name }} -
-        <span style="color: red;">+{{ formatMoney(overspendCategory.diff) }}</span>
+        <span style="color: red"
+          >+{{ formatMoney(overspendCategory.diff) }}</span
+        >
       </div>
       <div v-else>과소비 카테고리가 없습니다</div>
     </div>
@@ -72,14 +76,16 @@
       <strong>잘 아끼고 있어요!</strong>
       <div v-if="savedCategory">
         {{ savedCategory.name }} -
-        <span style="color: green;">-{{ formatMoney(Math.abs(savedCategory.diff)) }}</span>
+        <span style="color: green"
+          >-{{ formatMoney(Math.abs(savedCategory.diff)) }}</span
+        >
       </div>
       <div v-else>비교할 지난달 데이터가 없습니다</div>
     </div>
 
-    <hr>
+    <hr />
 
-    <!-- 4. 최근 거래내역 5건 -->
+    <!--  4. 최근 거래내역 5건  -->
     <h6>최근 거래내역</h6>
 
     <div
@@ -91,9 +97,9 @@
         marginBottom: '8px',
         backgroundColor: item.type === 'income' ? '#e8f0fe' : '#fce8e6',
         cursor: 'pointer',
-        borderRadius: '8px'
-      }"></div>
-
+        borderRadius: '8px',
+      }"
+    >
       <!-- 좌측: 날짜, 카테고리, 메모 -->
       <div>
         <strong>{{ getCategoryName(item) }}</strong>
@@ -102,19 +108,17 @@
 
       <!-- 우측: 금액 -->
       <div :style="{ color: item.type === 'income' ? 'blue' : 'red' }">
-        <span v-if="item.type === 'income'">↑ +{{ formatMoney(item.amount) }} (수입)</span>
+        <span v-if="item.type === 'income'"
+          >↑ +{{ formatMoney(item.amount) }} (수입)</span
+        >
         <span v-else>↓ -{{ formatMoney(item.amount) }} (지출)</span>
       </div>
     </div>
 
     <!-- 거래내역이 하나도 없을 때 -->
-    <div v-if="recentTransactions.length === 0">
-      거래내역이 없습니다.
-    </div>
-
+    <div v-if="recentTransactions.length === 0">거래내역이 없습니다.</div>
   </div>
 </template>
-
 
 <script>
 /**
@@ -148,19 +152,17 @@ export default {
     // ■ API 주소. json-server가 이 주소에서 돌아감
     const API_BASE = 'http://localhost:3000';
 
-
     // ========== 데이터 저장용 변수들 (ref) ==========
     // ref()로 감싸면 값이 바뀔 때 화면이 자동으로 업데이트됨
 
-    const budgetList = ref([]);          // 전체 거래내역 배열
-    const incomeCategories = ref([]);    // 수입 카테고리 목록
-    const expenseCategories = ref([]);   // 지출 카테고리 목록
-    const profile = ref({ name: '' });   // 사용자 프로필
-
+    const budgetList = ref([]); // 전체 거래내역 배열
+    const incomeCategories = ref([]); // 수입 카테고리 목록
+    const expenseCategories = ref([]); // 지출 카테고리 목록
+    const profile = ref({ name: '' }); // 사용자 프로필
 
     // ========== 연도/월 선택 ==========
-    const now = new Date();                        // 현재 날짜
-    const selectedYear = ref(now.getFullYear());   // 올해 (예: 2026)
+    const now = new Date(); // 현재 날짜
+    const selectedYear = ref(now.getFullYear()); // 올해 (예: 2026)
     const selectedMonth = ref(now.getMonth() + 1); // 이번 달 (getMonth()는 0부터 시작이라 +1)
 
     // yearOptions = select에 표시할 연도 목록
@@ -172,7 +174,6 @@ export default {
       return years.reverse(); // 최신 연도가 위에 오도록 뒤집기
     });
 
-
     // ========== 필터링: 선택한 연도/월의 거래만 골라내기 ==========
     // computed → selectedYear나 selectedMonth가 바뀌면 자동으로 다시 계산됨
     const filteredBudget = computed(() => {
@@ -180,51 +181,54 @@ export default {
         // item.date = "2026-04-01" 같은 문자열
         const d = new Date(item.date);
         // 연도와 월이 선택한 것과 같은 항목만 남김
-        return d.getFullYear() === selectedYear.value
-            && d.getMonth() + 1 === selectedMonth.value;
+        return (
+          d.getFullYear() === selectedYear.value &&
+          d.getMonth() + 1 === selectedMonth.value
+        );
       });
-    });adf
+    });
 
     // 지난달 거래 (과소비/절약 비교용)
     const prevMonthBudget = computed(() => {
       let pYear = selectedYear.value;
       let pMonth = selectedMonth.value - 1;
-      if (pMonth === 0) { pYear--; pMonth = 12; } // 1월이면 작년 12월
+      if (pMonth === 0) {
+        pYear--;
+        pMonth = 12;
+      } // 1월이면 작년 12월
       return budgetList.value.filter((item) => {
         const d = new Date(item.date);
         return d.getFullYear() === pYear && d.getMonth() + 1 === pMonth;
       });
     });
 
-
     // ========== 계산: 총수입, 총지출, 총계 ==========
     const totalIncome = computed(() =>
       // type이 'income'인 것만 골라서 amount를 전부 더함
       filteredBudget.value
         .filter((i) => i.type === 'income')
-        .reduce((sum, i) => sum + i.amount, 0)
+        .reduce((sum, i) => sum + i.amount, 0),
     );
 
     const totalExpense = computed(() =>
       filteredBudget.value
         .filter((i) => i.type === 'expense')
-        .reduce((sum, i) => sum + i.amount, 0)
+        .reduce((sum, i) => sum + i.amount, 0),
     );
 
     const netAmount = computed(() => totalIncome.value - totalExpense.value);
-
 
     // ========== 카테고리 이름 찾기 ==========
     // item.category에는 "21" 같은 ID만 들어있으므로
     // expenseCategory 목록에서 id가 "21"인 걸 찾아서 name("식비")을 반환
     const getCategoryName = (item) => {
-      const list = item.type === 'income'
-        ? incomeCategories.value
-        : expenseCategories.value;
+      const list =
+        item.type === 'income'
+          ? incomeCategories.value
+          : expenseCategories.value;
       const found = list.find((c) => c.id === item.category);
       return found ? found.name : '기타';
     };
-
 
     // ========== 최대 지출 카테고리 ==========
     const topExpenseCategory = computed(() => {
@@ -239,19 +243,22 @@ export default {
       });
 
       // 가장 큰 금액의 카테고리 ID를 찾음
-      const topId = Object.keys(catMap).sort((a, b) => catMap[b] - catMap[a])[0];
+      const topId = Object.keys(catMap).sort(
+        (a, b) => catMap[b] - catMap[a],
+      )[0];
       const cat = expenseCategories.value.find((c) => c.id === topId);
       return { name: cat ? cat.name : '기타', amount: catMap[topId] };
     });
-
 
     // ========== 지난달 대비 비교 (과소비 / 절약) ==========
     // 카테고리별 지출 합계를 구하는 도우미 함수
     const getCategoryExpenseMap = (list) => {
       const map = {};
-      list.filter((i) => i.type === 'expense').forEach((e) => {
-        map[e.category] = (map[e.category] || 0) + e.amount;
-      });
+      list
+        .filter((i) => i.type === 'expense')
+        .forEach((e) => {
+          map[e.category] = (map[e.category] || 0) + e.amount;
+        });
       return map;
       // 결과 예시: { "21": 55500, "22": 4500 }
     };
@@ -286,14 +293,12 @@ export default {
       return best;
     });
 
-
     // ========== 최근 거래내역 5건 ==========
     const recentTransactions = computed(() => {
-      return [...filteredBudget.value]                    // 배열 복사
-        .sort((a, b) => new Date(b.date) - new Date(a.date))  // 날짜 내림차순 정렬
-        .slice(0, 5);                                     // 앞에서 5개만
+      return [...filteredBudget.value] // 배열 복사
+        .sort((a, b) => new Date(b.date) - new Date(a.date)) // 날짜 내림차순 정렬
+        .slice(0, 5); // 앞에서 5개만
     });
-
 
     // ========== 포맷 함수들 ==========
     // 숫자 → "1,320,000원" 형식
@@ -304,10 +309,9 @@ export default {
     // 날짜 → "4/7(화)" 형식
     const formatDate = (dateStr) => {
       const d = new Date(dateStr);
-      const dayNames = ['일','월','화','수','목','금','토'];
+      const dayNames = ['일', '월', '화', '수', '목', '금', '토'];
       return `${d.getMonth() + 1}/${d.getDate()}(${dayNames[d.getDay()]})`;
     };
-
 
     // ========== 페이지 이동 ==========
     // 거래 항목 클릭 시 상세 페이지로 이동
@@ -318,17 +322,17 @@ export default {
       router.push({ name: 'transactionDetail', params: { id } });
     };
 
-
     // ========== API 호출 (데이터 가져오기) ==========
     const fetchData = async () => {
       try {
         // Promise.all = 4개의 요청을 동시에 보냄 (하나씩 기다리면 느리니까)
-        const [budgetRes, incomeRes, expenseRes, profileRes] = await Promise.all([
-          axios.get(`${API_BASE}/budget`),            // 전체 거래내역
-          axios.get(`${API_BASE}/incomeCategory`),    // 수입 카테고리
-          axios.get(`${API_BASE}/expenseCategory`),   // 지출 카테고리
-          axios.get(`${API_BASE}/profile`),           // 프로필
-        ]);
+        const [budgetRes, incomeRes, expenseRes, profileRes] =
+          await Promise.all([
+            axios.get(`${API_BASE}/budget`), // 전체 거래내역
+            axios.get(`${API_BASE}/incomeCategory`), // 수입 카테고리
+            axios.get(`${API_BASE}/expenseCategory`), // 지출 카테고리
+            axios.get(`${API_BASE}/profile`), // 프로필
+          ]);
 
         // 응답 데이터를 변수에 저장 → 화면이 자동으로 업데이트됨
         budgetList.value = budgetRes.data;
@@ -342,7 +346,6 @@ export default {
 
     // onMounted = 이 페이지가 화면에 처음 나타날 때 fetchData()를 실행
     onMounted(fetchData);
-
 
     // ========== template에서 사용할 것들을 return ==========
     // 여기서 return하지 않으면 template에서 {{ 변수 }}로 사용할 수 없음
