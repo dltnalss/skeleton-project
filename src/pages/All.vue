@@ -1,7 +1,5 @@
 <template>
   <div class="card card-body">
-    <h2>가계부 내역</h2>
-
     <table>
       <tr>
         <th>날짜</th>
