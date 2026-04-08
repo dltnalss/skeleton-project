@@ -28,15 +28,15 @@
     <!--  총수입 / 총지출 / 총계  -->
     <div>
       <div>
-        <span>총 수입: </span>
+        <span>총 수입 : </span>
         <span style="color: blue">{{ formatMoney(totalIncome) }}</span>
       </div>
       <div>
-        <span>총 지출: </span>
+        <span>총 지출 : </span>
         <span style="color: red">{{ formatMoney(totalExpense) }}</span>
       </div>
       <div>
-        <span>총계: </span>
+        <span>총계 : </span>
         <span :style="{ color: netAmount >= 0 ? 'green' : 'red' }">
           {{ netAmount >= 0 ? '+' : '' }}{{ formatMoney(netAmount) }}
         </span>
