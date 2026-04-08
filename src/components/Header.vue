@@ -13,13 +13,13 @@
           <router-link class="nav-link" to="/">홈</router-link>
         </li>
         <li class="nav-item">
-          <router-link class="nav-link" to="/about">소개</router-link>
+          <router-link class="nav-link" to="/addList">거래내역 추가</router-link>
         </li>
         <li class="nav-item">
-          <router-link class="nav-link" to="/members">멤버</router-link>
+          <router-link class="nav-link" to="/summary">리포트</router-link>
         </li>
         <li class="nav-item">
-          <router-link class="nav-link" to="/songs">영상</router-link>
+          <router-link class="nav-link" to="/transaction">거래내역</router-link>
         </li>
       </ul>
     </div>

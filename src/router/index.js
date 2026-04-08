@@ -4,6 +4,7 @@ import AddList from '@/pages/AddList.vue';
 import Summary from '@/pages/Summary.vue';
 import Transaction from '@/pages/Transaction.vue';
 
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [

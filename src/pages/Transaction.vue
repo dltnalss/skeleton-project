@@ -1,13 +1,14 @@
 <template>
   <div class="card card-body">
     <h2>Transaction</h2>
+    <TransactionHeader/>
+    
   </div>
+
 </template>
 
-<script>
-export default {
-  name: 'Transaction',
-};
+<script setup>
+import TransactionHeader from '@/components/TransactionHeader.vue';
 </script>
 
 <style></style>
