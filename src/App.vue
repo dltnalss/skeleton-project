@@ -24,6 +24,7 @@
   </div>
 </template>
 
+<script setup>
 <script>
 // Header.vue 파일을 가져와서 이 파일 안에서 사용하겠다는 뜻
 import Header from './components/Header.vue';
