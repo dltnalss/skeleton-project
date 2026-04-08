@@ -6,6 +6,10 @@
     많관부
   </div>
 
+  <button id="plusButton">
+    <router-link to="/addList">+</router-link>
+  </button>
+
   <nav class="navbar bg-dark navbar-dark fixed-bottom">
     <ul
       class="navbar-nav d-flex flex-row w-100 justify-content-around text-center"
@@ -76,5 +80,30 @@
   </nav>
 </template>
 
-<script></script>
-<style></style>
+<script>
+import router from '@/router';
+</script>
+<style scoped>
+#plusButton,
+#plusButton:visited,
+#plusButton:hover,
+#plusButton:active,
+#plusButton:focus {
+  border-radius: 50%;
+  background-color: rgb(190, 190, 255);
+  color: white;
+  width: 50px;
+  height: 50px;
+  border: none;
+  font-size: 30px;
+  text-decoration: none !important;
+
+  position: fixed;
+  right: 20px;
+  bottom: 80px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+</style>
