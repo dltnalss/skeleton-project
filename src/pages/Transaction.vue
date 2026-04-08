@@ -22,6 +22,9 @@
     </table>
   </div>
 
+<button id="plusButton">
+    <router-link to="/addList">+</router-link>
+  </button>
 </template>
 
 <script setup>
@@ -51,5 +54,24 @@ const fetchMyList = async () => {
 fetchMyList();
 </script>
 
-<style></style>
+<style scoped>
+#plusButton {
+  border-radius: 50%;
+  background-color: rgb(190, 190, 255);
+  color: white;
+  width: 50px;
+  height: 50px;
+  border: none;
+  font-size: 30px;
+  text-decoration: none !important;
+
+  position: fixed;
+  right: 80px;
+  bottom: 100px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+</style>
 
