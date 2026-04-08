@@ -34,18 +34,48 @@
     }
   ],
   "incomeCategory": [
-    { "id": "11", "name": "구직촉진수당" },
-    { "id": "12", "name": "KDT훈련수당" },
-    { "id": "13", "name": "KB지원금" },
-    { "id": "14", "name": "용돈" },
-    { "id": "15", "name": "기타" }
+    {
+      "id": "11",
+      "name": "구직촉진수당"
+    },
+    {
+      "id": "12",
+      "name": "KDT훈련수당"
+    },
+    {
+      "id": "13",
+      "name": "KB지원금"
+    },
+    {
+      "id": "14",
+      "name": "용돈"
+    },
+    {
+      "id": "15",
+      "name": "기타"
+    }
   ],
   "expenseCategory": [
-    { "id": "21", "name": "식비" },
-    { "id": "22", "name": "교통" },
-    { "id": "23", "name": "의료" },
-    { "id": "24", "name": "문화" },
-    { "id": "25", "name": "기타" }
+    {
+      "id": "21",
+      "name": "식비"
+    },
+    {
+      "id": "22",
+      "name": "교통"
+    },
+    {
+      "id": "23",
+      "name": "의료"
+    },
+    {
+      "id": "24",
+      "name": "문화"
+    },
+    {
+      "id": "25",
+      "name": "기타"
+    }
   ],
   "profile": {
     "name": "김멀티",
@@ -53,6 +83,18 @@
     "currency": "KRW",
     "startDayOfMonth": 1
   },
-  "monthlyincome": [{ "id": "30", "totalamount": 3000000, "category": "13" }],
-  "monthlyexpense": [{ "id": "40", "totalamount": 3000000, "category": "23" }]
+  "monthlyincome": [
+    {
+      "id": "30",
+      "totalamount": 3000000,
+      "category": "13"
+    }
+  ],
+  "monthlyexpense": [
+    {
+      "id": "40",
+      "totalamount": 3000000,
+      "category": "23"
+    }
+  ]
 }

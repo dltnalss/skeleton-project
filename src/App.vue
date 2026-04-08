@@ -5,13 +5,8 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import Header from './components/Header.vue';
-
-export default {
-  name: 'App',
-  components: { Header },
-};
 </script>
 
 <style lang="scss" scoped></style>
