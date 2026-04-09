@@ -1,6 +1,6 @@
 <template>
   <div
-    class="bg-dark text-white ps-3 d-flex align-items-center"
+    class="app-header bg-dark ps-3 d-flex align-items-center"
     style="height: 50px"
   >
     많관부
@@ -10,13 +10,13 @@
     <router-link to="/addList">+</router-link>
   </button> -->
 
-  <nav class="navbar bg-dark navbar-dark fixed-bottom">
+  <nav class="navbar app-bottom-nav bg-dark navbar-dark fixed-bottom">
     <ul
       class="navbar-nav d-flex flex-row w-100 justify-content-around text-center"
     >
       <li class="nav-item flex-fill">
         <router-link
-          class="nav-link d-flex align-items-center justify-content-center gap-1"
+          class="nav-link nav-label d-flex align-items-center justify-content-center gap-2"
           to="/"
         >
           <svg
@@ -34,12 +34,13 @@
               d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293z"
             />
           </svg>
+          <span>홈</span>
         </router-link>
       </li>
 
       <li class="nav-item flex-fill">
         <router-link
-          class="nav-link d-flex align-items-center justify-content-center gap-1"
+          class="nav-link nav-label d-flex align-items-center justify-content-center gap-2"
           to="/transaction"
         >
           <svg
@@ -54,12 +55,13 @@
             <path d="M11.5 1a1 1 0 0 1 1 1v1.5h-9V2a1 1 0 0 1 1-1h7z" />
             <path d="M4 6h8v1H4V6zm0 2h8v1H4V8zm0 2h5v1H4v-1z" />
           </svg>
+          <span>거래 내역</span>
         </router-link>
       </li>
 
       <li class="nav-item flex-fill">
         <router-link
-          class="nav-link d-flex align-items-center justify-content-center gap-1"
+          class="nav-link nav-label d-flex align-items-center justify-content-center gap-2"
           to="/summary"
         >
           <svg
@@ -71,9 +73,10 @@
             aria-hidden="true"
           >
             <path
-              d="M0 0h1v15h15v1H0V0zm2 10h2v4H2v-4zm4-3h2v7H6V7zm4-4h2v11h-2V3zm4 6h2v5h-2V9z"
+              d="M9.5 2.672a.5.5 0 1 0 1 0V.843a.5.5 0 0 0-1 0zm4.5.035A.5.5 0 0 0 13.293 2L12 3.293a.5.5 0 1 0 .707.707zM7.293 4A.5.5 0 1 0 8 3.293L6.707 2A.5.5 0 0 0 6 2.707zm-.621 2.5a.5.5 0 1 0 0-1H4.843a.5.5 0 1 0 0 1zm8.485 0a.5.5 0 1 0 0-1h-1.829a.5.5 0 0 0 0 1zM13.293 10A.5.5 0 1 0 14 9.293L12.707 8a.5.5 0 1 0-.707.707zM9.5 11.157a.5.5 0 0 0 1 0V9.328a.5.5 0 0 0-1 0zm1.854-5.097a.5.5 0 0 0 0-.706l-.708-.708a.5.5 0 0 0-.707 0L8.646 5.94a.5.5 0 0 0 0 .707l.708.708a.5.5 0 0 0 .707 0l1.293-1.293Zm-3 3a.5.5 0 0 0 0-.706l-.708-.708a.5.5 0 0 0-.707 0L.646 13.94a.5.5 0 0 0 0 .707l.708.708a.5.5 0 0 0 .707 0z"
             />
           </svg>
+          <span>AI 요약</span>
         </router-link>
       </li>
     </ul>
@@ -83,3 +86,35 @@
 <script>
 import router from '@/router';
 </script>
+
+<style scoped>
+.app-header {
+  color: rgba(255, 255, 255, 0.55);
+  height: 50px;
+  margin: 0 auto;
+  max-width: 460px;
+  width: 100%;
+}
+
+.app-bottom-nav {
+  margin: 0 auto;
+  max-width: 460px;
+  width: 100%;
+}
+
+.app-bottom-nav .navbar-nav {
+  min-height: 64px;
+  padding: 0 8px;
+}
+
+.nav-label {
+  font-size: 0.95rem;
+  font-weight: 500;
+  min-height: 64px;
+  white-space: nowrap;
+}
+
+.nav-label svg {
+  flex-shrink: 0;
+}
+</style>

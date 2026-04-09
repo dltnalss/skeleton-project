@@ -20,9 +20,9 @@
   </div>
 
   <!-- 플러스 버튼 -->
-  <button id="plusButton">
-    <router-link to="/addList">+</router-link>
-  </button>
+  <router-link id="plusButton" to="/addList">
+    <span class="plus-icon">+</span>
+  </router-link>
 </template>
 
 <script setup>
@@ -55,20 +55,27 @@ fetchMyList();
 /* 플러스 버튼 디자인 */
 #plusButton {
   border-radius: 50%;
-  background-color: rgb(190, 190, 255);
-  color: white;
+  background-color: #212529;
+  color: rgba(255, 255, 255, 0.55);
   width: 50px;
   height: 50px;
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   font-size: 30px;
   text-decoration: none;
 
   position: fixed;
-  right: 20px;
-  bottom: 80px;
+  right: max(calc(50% - 230px + 16px), 16px);
+  bottom: 100px;
 
   display: flex;
   align-items: center;
   justify-content: center;
+  line-height: 1;
+}
+
+.plus-icon {
+  display: block;
+  line-height: 1;
+  transform: translateY(-2px);
 }
 </style>
