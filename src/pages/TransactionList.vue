@@ -1,10 +1,6 @@
 <template>
   <div class="card card-body">
-    <h2>가계부 내역</h2>
-    <TransactionHeader />
-    <!-- <router-view></router-view> -->
-
-    <!-- <table>
+    <table>
       <tr>
         <th>날짜</th>
         <th>내역</th>
@@ -18,19 +14,40 @@
           {{ List.amount.toLocaleString() }}원
         </td>
       </tr>
-    </table> -->
+    </table>
   </div>
 </template>
 
 <script setup>
-import TransactionHeader from '@/components/TransactionHeader.vue';
-import { reactive } from 'vue';
-// import axios from 'axios';
+import { useRoute } from 'vue-router';
+import { reactive, watch } from 'vue';
+import axios from 'axios';
 
-// const BASEURI = '/api/budget';
-// const states = reactive({ MyList: [] });
+const BASEURI = '/api/budget';
+const route = useRoute();
+const states = reactive({ MyList: [] });
 
-// // budget 목록 조회
+const fetchMyList = async () => {
+  try {
+    const queryParams = {};
+
+    if (route.name !== 'all') {
+      queryParams.type = route.name;
+    }
+    const response = await axios.get(BASEURI, { params: queryParams });
+
+    if (response.status == 200) {
+      states.MyList = response.data;
+    }
+  } catch (e) {
+    console.error('데이터 로드 실패:', e);
+    states.MyList = [];
+  }
+};
+fetchMyList();
+watch(() => route.name, fetchMyList);
+
+// budget 목록 조회
 // const fetchMyList = async () => {
 //   try {
 //     const response = await axios.get(BASEURI);
