@@ -1,7 +1,6 @@
 <template>
   <div class="card card-body">
     <table>
-<<<<<<< HEAD
     <thead>
       <tr>
         <th>날짜</th>
@@ -18,24 +17,6 @@
           {{ List.amount.toLocaleString() }}원
         </td>
       </tr>
-=======
-      <thead>
-        <tr>
-          <th>날짜</th>
-          <th>내역</th>
-          <th>금액</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="List in states.MyList" :key="List.id">
-          <td>{{ List.date }}</td>
-          <td>{{ List.memo }}</td>
-          <td :class="List.type === 'expense' ? 'text-danger' : 'text-primary'">
-            {{ List.type === 'expense' ? '-' : '+' }}
-            {{ List.amount.toLocaleString() }}원
-          </td>
-        </tr>
->>>>>>> 724220a2b6776b77d349e3c5b45aa23afecf2f1f
       </tbody>
     </table>
   </div>
