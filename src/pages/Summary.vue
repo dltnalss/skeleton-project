@@ -272,7 +272,11 @@ const selectedMonthExpenseTotal = computed(() =>
 
 <style scoped>
 .summary-page {
-  padding: 20px 16px 40px;
+  box-sizing: border-box;
+  margin: 0 auto;
+  max-width: 460px;
+  padding: 20px 0 40px;
+  width: 100%;
 }
 
 .summary-card {
@@ -282,7 +286,9 @@ const selectedMonthExpenseTotal = computed(() =>
   border: 1px solid #eadfca;
   border-radius: 28px;
   box-shadow: 0 18px 40px rgba(87, 62, 20, 0.08);
+  box-sizing: border-box;
   padding: 24px;
+  width: 100%;
 }
 
 .eyebrow {
@@ -548,6 +554,11 @@ const selectedMonthExpenseTotal = computed(() =>
 }
 
 @media (max-width: 480px) {
+  .summary-page {
+    padding-left: 2px;
+    padding-right: 2px;
+  }
+
   .summary-card {
     border-radius: 22px;
     padding: 20px;

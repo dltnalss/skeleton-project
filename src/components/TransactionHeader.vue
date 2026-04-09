@@ -23,8 +23,6 @@
       </div> -->
     <!-- </div> -->
   </div>
-
-  <button class="fab" @click="showModal = true">+</button>
 </template>
 
 <script setup>
@@ -111,18 +109,5 @@ const goToTab = (key) => {
 .entry .expense {
   color: #d9534f;
   font-weight: 500;
-}
-.fab {
-  position: fixed;
-  bottom: 80px;
-  right: 24px;
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  background: #3b3be8;
-  border: none;
-  color: white;
-  font-size: 28px;
-  cursor: pointer;
 }
 </style>
