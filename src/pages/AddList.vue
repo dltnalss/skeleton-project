@@ -1,6 +1,9 @@
 <template>
+<<<<<<< HEAD
   <div>
     <h5>거래 등록</h5>
+=======
+>>>>>>> 724220a2b6776b77d349e3c5b45aa23afecf2f1f
   <div class="add-list-container">
     <h2>내역 추가하기</h2>
 
@@ -42,6 +45,7 @@
 </template>
 
 <script setup>
+<<<<<<< HEAD
 // 필요한 import:
 //   - ref, computed, onMounted  (from 'vue')
 //   - axios                     (from 'axios')
@@ -59,10 +63,20 @@ const form = ref({
   type: 'expense',
   date: new Date().toISOString().slice(0, 10),
   amount: 0,
+=======
+import { ref, computed } from 'vue';
+
+// 1. 입력할 데이터를 한 곳에 모아두는 form 객체
+const form = ref({
+  type: 'expense', // 기본값을 '지출'로 설정해두면 편합니다
+  date: '',
+  amount: null,
+>>>>>>> 724220a2b6776b77d349e3c5b45aa23afecf2f1f
   category: '',
   memo: '',
 });
 
+<<<<<<< HEAD
   // - incomeCategories = ref([])   ← API에서 가져올 수입 카테고리 목록
   // - expenseCategories = ref([])  ← API에서 가져올 지출 카테고리 목록
 const incomeCategories = ref([])    
@@ -92,6 +106,28 @@ watch(
   () => form.value.type,
   () => {
     form.value.category = '';
+=======
+// 2. 수입/지출에 따른 카테고리 기초 데이터 (실제로는 서버나 Pinia에서 가져올 수 있어요)
+const incomeCategories = [
+  { id: '11', name: '급여' },
+  { id: '12', name: '용돈' },
+  { id: '13', name: '기타수입' },
+];
+
+const expenseCategories = [
+  { id: '21', name: '식비' },
+  { id: '22', name: '교통비' },
+  { id: '23', name: '쇼핑' },
+];
+
+// 3. 핵심 포인트: 거래종류(form.type)가 바뀔 때마다 카테고리 목록을 자동으로 바꿔주는 computed
+const categoryList = computed(() => {
+  // form.type이 'income'이면 수입 카테고리를, 아니면 지출 카테고리를 반환합니다.
+  if (form.value.type === 'income') {
+    return incomeCategories;
+  } else {
+    return expenseCategories;
+>>>>>>> 724220a2b6776b77d349e3c5b45aa23afecf2f1f
   }
 );
 
@@ -132,6 +168,31 @@ const saveTransaction = async () => {
 //   - form.type이 바뀌면 form.category를 ''로 초기화
 //     → 수입에서 지출로 바꿨는데 카테고리가 수입 카테고리 값으로 남아있으면 안 되니까
 
+<<<<<<< HEAD
 // return:
 //   - form, categoryList, saveTransaction, goBack
 </script>
+=======
+  // 💡 알고 계신 Pinia나 Axios를 바로 이 부분에 추가하게 됩니다.
+  // 예시 1) axios.post('/api/add', form.value)
+  // 예시 2) accountStore.addList(form.value)
+};
+</script>
+
+<style scoped>
+/* 간단하게 보기 좋도록 CSS를 살짝 추가했습니다 */
+.add-list-container {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+}
+.form-group {
+  margin-bottom: 15px;
+}
+.button-group {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+}
+</style>
+>>>>>>> 724220a2b6776b77d349e3c5b45aa23afecf2f1f
