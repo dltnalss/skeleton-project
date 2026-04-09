@@ -223,6 +223,14 @@
       "category": "21",
       "memo": "fgga",
       "id": "R8_M-mE"
+    },
+    {
+      "date": "2026-04-01",
+      "type": "income",
+      "amount": 50000,
+      "category": "12",
+      "memo": "아빠용돈",
+      "id": "nu8a75BxLAM"
     }
   ],
   "incomeCategory": [
@@ -288,5 +296,6 @@
       "totalamount": 3000000,
       "category": "23"
     }
-  ]
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }
