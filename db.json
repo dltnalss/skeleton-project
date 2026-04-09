@@ -1,30 +1,6 @@
 {
   "budget": [
     {
-      "id": "1",
-      "date": "2026-04-01",
-      "type": "income",
-      "amount": 820000,
-      "category": "11",
-      "memo": "4월 구직촉진수당"
-    },
-    {
-      "id": "2",
-      "date": "2026-04-01",
-      "type": "income",
-      "amount": 300000,
-      "category": "12",
-      "memo": "4월 KDT훈련수당"
-    },
-    {
-      "id": "3",
-      "date": "2026-04-01",
-      "type": "income",
-      "amount": 200000,
-      "category": "13",
-      "memo": "4월 KB지원금"
-    },
-    {
       "id": "4",
       "date": "2026-04-02",
       "type": "expense",
@@ -111,22 +87,6 @@
       "amount": 6500,
       "category": "21",
       "memo": "김밥천국 점심"
-    },
-    {
-      "id": "15",
-      "date": "2026-03-01",
-      "type": "income",
-      "amount": 820000,
-      "category": "11",
-      "memo": "3월 구직촉진수당"
-    },
-    {
-      "id": "16",
-      "date": "2026-03-01",
-      "type": "income",
-      "amount": 300000,
-      "category": "12",
-      "memo": "3월 KDT훈련수당"
     },
     {
       "id": "17",

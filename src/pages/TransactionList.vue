@@ -16,6 +16,14 @@
             {{ List.type === 'expense' ? '-' : '+' }}
             {{ List.amount.toLocaleString() }}원
           </td>
+          <td class="text-center">
+            <div class="d-flex justify-content-center gap-1">
+              <button class="btn btn-outline-primary">편집</button>
+              <button class="btn btn-outline-primary" @click="deleteList(List)">
+                삭제
+              </button>
+            </div>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -49,7 +57,43 @@ const fetchMyList = async () => {
   }
 };
 fetchMyList();
-watch(() => route.name, fetchMyList);
+const deleteList = async (List) => {
+  if (!confirm('정말 이 내역을 삭제하시겠습니까 ?')) return;
+  try {
+    const response = await axios.delete(`${BASEURI}/${List.id}`);
+
+    //나중에 URL 부분 수정
+    if (response.status == 200) {
+      let index = states.MyList.findIndex((b) => b.id === List.id);
+      if (index !== -1) {
+        states.MyList.splice(index, 1);
+      }
+    } else {
+      alert('Todo 삭제 실패');
+    }
+  } catch (e) {
+    alert('에러발생 : ' + e);
+  }
+};
+// const editList = async ({}) => {
+//   if (!confirm('정말 이 내역을 삭제하시겠습니까 ?')) return;
+//   try {
+//     const response = await axios.delete(`${BASEURI}/${List.id}`);
+
+//     //나중에 URL 부분 수정
+//     if (response.status == 200) {
+//       let index = states.MyList.findIndex((b) => b.id === List.id);
+//       if (index !== -1) {
+//         states.MyList.splice(index, 1);
+//       }
+//     } else {
+//       alert('Todo 삭제 실패');
+//     }
+//   } catch (e) {
+//     alert('에러발생 : ' + e);
+//   }
+// };
+// watch(() => route.name, fetchMyList);
 
 // budget 목록 조회
 // const fetchMyList = async () => {
