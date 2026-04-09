@@ -1,6 +1,198 @@
 {
   "budget": [
     {
+      "id": "25",
+      "date": "2026-02-01",
+      "type": "income",
+      "amount": 820000,
+      "category": "11",
+      "memo": "2월 구직촉진수당"
+    },
+    {
+      "id": "26",
+      "date": "2026-02-01",
+      "type": "income",
+      "amount": 300000,
+      "category": "12",
+      "memo": "2월 KDT훈련수당"
+    },
+    {
+      "id": "27",
+      "date": "2026-02-01",
+      "type": "income",
+      "amount": 200000,
+      "category": "13",
+      "memo": "2월 KB지원금"
+    },
+    {
+      "id": "28",
+      "date": "2026-02-04",
+      "type": "expense",
+      "amount": 9000,
+      "category": "21",
+      "memo": "김밥 점심"
+    },
+    {
+      "id": "29",
+      "date": "2026-02-06",
+      "type": "expense",
+      "amount": 3000,
+      "category": "22",
+      "memo": "지하철 왕복"
+    },
+    {
+      "id": "30",
+      "date": "2026-02-08",
+      "type": "expense",
+      "amount": 18000,
+      "category": "23",
+      "memo": "약국 감기약"
+    },
+    {
+      "id": "31",
+      "date": "2026-02-11",
+      "type": "expense",
+      "amount": 25000,
+      "category": "24",
+      "memo": "영화 관람"
+    },
+    {
+      "id": "32",
+      "date": "2026-02-14",
+      "type": "expense",
+      "amount": 22000,
+      "category": "21",
+      "memo": "치킨 배달"
+    },
+    {
+      "id": "33",
+      "date": "2026-02-18",
+      "type": "expense",
+      "amount": 1500,
+      "category": "22",
+      "memo": "버스비"
+    },
+    {
+      "id": "34",
+      "date": "2026-02-21",
+      "type": "income",
+      "amount": 50000,
+      "category": "14",
+      "memo": "부모님 용돈"
+    },
+    {
+      "id": "35",
+      "date": "2026-02-24",
+      "type": "expense",
+      "amount": 12000,
+      "category": "21",
+      "memo": "카페 + 샌드위치"
+    },
+    {
+      "id": "36",
+      "date": "2026-02-27",
+      "type": "expense",
+      "amount": 9900,
+      "category": "25",
+      "memo": "넷플릭스 구독"
+    },
+    {
+      "id": "37",
+      "date": "2026-01-01",
+      "type": "income",
+      "amount": 820000,
+      "category": "11",
+      "memo": "1월 구직촉진수당"
+    },
+    {
+      "id": "38",
+      "date": "2026-01-01",
+      "type": "income",
+      "amount": 300000,
+      "category": "12",
+      "memo": "1월 KDT훈련수당"
+    },
+    {
+      "id": "39",
+      "date": "2026-01-01",
+      "type": "income",
+      "amount": 200000,
+      "category": "13",
+      "memo": "1월 KB지원금"
+    },
+    {
+      "id": "40",
+      "date": "2026-01-03",
+      "type": "expense",
+      "amount": 8000,
+      "category": "21",
+      "memo": "토스트 + 커피"
+    },
+    {
+      "id": "41",
+      "date": "2026-01-05",
+      "type": "expense",
+      "amount": 2500,
+      "category": "22",
+      "memo": "버스 환승"
+    },
+    {
+      "id": "42",
+      "date": "2026-01-09",
+      "type": "expense",
+      "amount": 30000,
+      "category": "24",
+      "memo": "전시회 관람"
+    },
+    {
+      "id": "43",
+      "date": "2026-01-12",
+      "type": "expense",
+      "amount": 14000,
+      "category": "21",
+      "memo": "국밥 점심"
+    },
+    {
+      "id": "44",
+      "date": "2026-01-16",
+      "type": "expense",
+      "amount": 20000,
+      "category": "23",
+      "memo": "치과 진료비"
+    },
+    {
+      "id": "45",
+      "date": "2026-01-19",
+      "type": "income",
+      "amount": 30000,
+      "category": "14",
+      "memo": "설날 용돈"
+    },
+    {
+      "id": "46",
+      "date": "2026-01-22",
+      "type": "expense",
+      "amount": 27000,
+      "category": "21",
+      "memo": "햄버거 세트"
+    },
+    {
+      "id": "47",
+      "date": "2026-01-25",
+      "type": "expense",
+      "amount": 15000,
+      "category": "25",
+      "memo": "생활용품 구매"
+    },
+    {
+      "id": "48",
+      "date": "2026-01-28",
+      "type": "expense",
+      "amount": 4000,
+      "category": "22",
+      "memo": "지하철 충전"
+    },
+    {
       "id": "1",
       "date": "2026-04-01",
       "type": "income",
