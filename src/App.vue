@@ -9,13 +9,12 @@
 import { reactive } from 'vue';
 import Header from './components/Header.vue';
 import axios from 'axios';
-import { useRouter } from 'vue-router';
 
 const BASEURI = '/api/budget';
-const router = useRouter();
+// const router = useRouter();
 
 const states = reactive({
-  Transactions: [],
+  transactions: [],
 });
 
 const fetchTransaction = async () => {
@@ -23,7 +22,7 @@ const fetchTransaction = async () => {
     let response = await axios.get(BASEURI);
     if (response.status === 200) {
       console.log(response.data);
-      states.Transaction = response.data;
+      states.transactions = response.data;
     } else {
       console.log('데이터 전체 조회 실패');
     }

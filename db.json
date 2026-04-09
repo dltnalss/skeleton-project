@@ -215,6 +215,22 @@
       "category": "22",
       "memo": "버스비 톨비",
       "id": "AQ61mN1O6NM"
+    },
+    {
+      "type": "expense",
+      "date": "2026-04-09",
+      "amount": 66234234,
+      "category": "21",
+      "memo": "2aefdaf",
+      "id": "di9wozl"
+    },
+    {
+      "type": "income",
+      "date": "2026-04-09",
+      "amount": 12315,
+      "category": "11",
+      "memo": "",
+      "id": "RRvSHR6"
     }
   ],
   "incomeCategory": [
