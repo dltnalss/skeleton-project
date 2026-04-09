@@ -24,29 +24,35 @@ const router = createRouter({
   // routes = URL 목록. 각 항목이 "이 URL이면 이 페이지를 보여줘"라는 뜻
   routes: [
     {
-      path: '/',                    // URL이 "/" 일 때 (홈)
-      name: 'home',                 // 이 라우트의 이름 (코드에서 참조용)
-      component: Home,              // Home.vue를 보여줌
+      path: '/', // URL이 "/" 일 때 (홈)
+      name: 'home', // 이 라우트의 이름 (코드에서 참조용)
+      component: Home, // Home.vue를 보여줌
     },
     {
-      path: '/addList',             // URL이 "/addList" 일 때
+      path: '/addList', // URL이 "/addList" 일 때
       name: 'addList',
-      component: AddList,           // AddList.vue를 보여줌
+      component: AddList, // AddList.vue를 보여줌
     },
     {
-      path: '/summary',            // URL이 "/summary" 일 때
+      path: '/summary', // URL이 "/summary" 일 때
       name: 'summary',
-      component: Summary,           // Summary.vue를 보여줌
+      component: Summary, // Summary.vue를 보여줌
     },
     {
-      path: '/transaction',        // URL이 "/transaction" 일 때
+      path: '/transaction', // URL이 "/transaction" 일 때
       name: 'transaction',
-      component: Transaction,       // Transaction.vue를 보여줌
+      component: Transaction, // Transaction.vue를 보여줌
     },
     {
-      path: '/transaction/:id',    // URL이 "/transaction/숫자" 일 때
-      name: 'transactionDetail',   // :id는 변수. /transaction/3이면 id=3
+      path: '/transaction/:id', // URL이 "/transaction/숫자" 일 때
+      name: 'transactionDetail', // :id는 변수. /transaction/3이면 id=3
       component: TransactionDetail, // TransactionDetail.vue를 보여줌
+    },
+    // 기존 routes 배열 안에 아래 객체를 추가하세요
+    {
+      path: '/add',
+      name: 'AddList',
+      component: () => import('@/pages/AddList.vue'),
     },
   ],
 });
