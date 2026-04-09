@@ -1,58 +1,116 @@
 <template>
-  <div class="card card-body">
-    <h2>AddList</h2>
-    {{ states.budgetList }}
+  <div class="add-list-container">
+    <h2>내역 추가하기</h2>
+
+    <div class="form-group">
+      <label>
+        <input type="radio" v-model="form.type" value="income" /> 수입
+      </label>
+      <label>
+        <input type="radio" v-model="form.type" value="expense" /> 지출
+      </label>
+    </div>
+
+    <div class="form-group">
+      <input type="date" v-model="form.date" />
+    </div>
+
+    <div class="form-group">
+      <input type="number" v-model="form.amount" placeholder="금액 입력" />
+    </div>
+
+    <div class="form-group">
+      <select v-model="form.category">
+        <option value="">-- 선택 --</option>
+        <option v-for="cat in categoryList" :key="cat.id" :value="cat.id">
+          {{ cat.name }}
+        </option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <input type="text" v-model="form.memo" placeholder="메모 입력" />
+    </div>
+
+    <div class="button-group">
+      <button @click="goBack">취소</button>
+      <button @click="saveTransaction">저장</button>
+    </div>
   </div>
 </template>
 
 <script setup>
-import { reactive } from 'vue';
-// import Header from '@/components/Header.vue';
-import axios from 'axios';
+import { ref, computed } from 'vue';
 
-const BASEURI = '/api/budget';
-
-// //지출 목록 조회
-// const fetchList = async ()=>{
-//     try{
-//         const response = await axios.get(BASEURI);
-//         if(response)
-// }
-
-// 예산 추가하는 add
-// const states = reactive({ budgetList: [] });
-
-// const addList = async ({ date, type, amount, category }) => {
-//   try {
-//     console.log(date + '/' + type + '/' + amount + '/' + category);
-//     const payload = { date, type, amount, category };
-//     const response = await axios.post(BASEURI, payload);
-//     console.log(response);
-//     if (response.status === 201) {
-//       states.budgetList.push({ ...response.data });
-//     } else {
-//       alert('Budget 추가 실패');
-//     }
-//   } catch (e) {
-//     console.log(e);
-//     alert('에러발생 :' + e);
-//   }
-// };
-
-// const d = {
-//   date: '2026-04-03',
-//   type: 'income',
-//   amount: '20000',
-//   category: '21',
-// };
-
-// // addList(d)
-addList({
-  date: '2026-04-03',
-  type: 'income',
-  amount: '20000',
-  category: '21',
+// 1. 입력할 데이터를 한 곳에 모아두는 form 객체
+const form = ref({
+  type: 'expense', // 기본값을 '지출'로 설정해두면 편합니다
+  date: '',
+  amount: null,
+  category: '',
+  memo: '',
 });
+
+// 2. 수입/지출에 따른 카테고리 기초 데이터 (실제로는 서버나 Pinia에서 가져올 수 있어요)
+const incomeCategories = [
+  { id: '11', name: '급여' },
+  { id: '12', name: '용돈' },
+  { id: '13', name: '기타수입' },
+];
+
+const expenseCategories = [
+  { id: '21', name: '식비' },
+  { id: '22', name: '교통비' },
+  { id: '23', name: '쇼핑' },
+];
+
+// 3. 핵심 포인트: 거래종류(form.type)가 바뀔 때마다 카테고리 목록을 자동으로 바꿔주는 computed
+const categoryList = computed(() => {
+  // form.type이 'income'이면 수입 카테고리를, 아니면 지출 카테고리를 반환합니다.
+  if (form.value.type === 'income') {
+    return incomeCategories;
+  } else {
+    return expenseCategories;
+  }
+});
+
+// 4. 취소 버튼 함수
+const goBack = () => {
+  alert('이전 화면으로 돌아갑니다.');
+  // 나중에 여기에 라우터 이동 코드 (예: router.go(-1))를 넣으면 됩니다.
+};
+
+// 5. 저장 버튼 함수
+const saveTransaction = () => {
+  // 간단한 빈칸 검사 (Validation)
+  if (!form.value.date || !form.value.amount || !form.value.category) {
+    alert('날짜, 금액, 카테고리는 꼭 입력해주세요!');
+    return;
+  }
+
+  // 데이터가 잘 담겼는지 개발자 도구 콘솔에서 확인해보세요
+  console.log('저장될 데이터:', form.value);
+  alert('가계부에 잘 저장되었습니다!');
+
+  // 💡 알고 계신 Pinia나 Axios를 바로 이 부분에 추가하게 됩니다.
+  // 예시 1) axios.post('/api/add', form.value)
+  // 예시 2) accountStore.addList(form.value)
+};
 </script>
 
-<style></style>
+<style scoped>
+/* 간단하게 보기 좋도록 CSS를 살짝 추가했습니다 */
+.add-list-container {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+}
+.form-group {
+  margin-bottom: 15px;
+}
+.button-group {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+}
+</style>
