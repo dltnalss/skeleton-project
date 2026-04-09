@@ -37,15 +37,14 @@ const tabs = [
   { key: 'expense', label: '지출' },
 ];
 const router = useRouter();
-const route = useRoute;
 const activeTab = ref('all');
-const ashowModal = ref(false);
+// const ashowModal = ref(false);
 // const entries = ref([]);
 // const router = useRouter();
 
 const goToTab = (key) => {
   activeTab.value = key;
-  router.push(`/transaction/${key}`);
+  router.push({ name: key });
 };
 
 // const filteredEntries = computed(() => {

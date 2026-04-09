@@ -2,10 +2,10 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Home from '@/pages/Home.vue';
 import AddList from '@/pages/AddList.vue';
 import Summary from '@/pages/Summary.vue';
-import TransactionAll from '@/pages/All.vue';
+import TransactionList from '@/pages/TransactionList.vue';
 import Transaction from '@/pages/Transaction.vue';
-import TransactionIncome from '@/pages/Income.vue';
-import TransactionExpense from '@/pages/Expense.vue';
+// import TransactionIncome from '@/pages/Income.vue';
+// import TransactionExpense from '@/pages/Expense.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -30,16 +30,16 @@ const router = createRouter({
       name: 'transaction',
       component: Transaction,
       children: [
-        { path: 'all', name: 'transaction/all', component: TransactionAll },
+        { path: 'all', name: 'all', component: TransactionList },
         {
           path: 'income',
-          name: 'transaction/income',
-          component: TransactionIncome,
+          name: 'income',
+          component: TransactionList,
         },
         {
           path: 'expense',
-          name: 'transaction/expense',
-          component: TransactionExpense,
+          name: 'expense',
+          component: TransactionList,
         },
       ],
     },
