@@ -6,9 +6,9 @@
     많관부
   </div>
 
-  <button id="plusButton">
+  <!-- <button id="plusButton">
     <router-link to="/addList">+</router-link>
-  </button>
+  </button> -->
 
   <nav class="navbar bg-dark navbar-dark fixed-bottom">
     <ul
