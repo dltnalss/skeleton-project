@@ -1,5 +1,6 @@
 <template>
   <div class="wrapper">
+    <!-- 탭 버튼 (전체/수입/지출) -->
     <div class="tab-group">
       <button
         v-for="tab in tabs"
@@ -11,71 +12,187 @@
       </button>
     </div>
 
-    <router-view />
+    <!-- ■ 필터 바: 날짜 범위 + 카테고리 -->
+    <div style="margin-bottom: 12px">
+      <div>
+        <label
+          >시작일:
+          <input type="date" v-model="filterStartDate" />
+        </label>
+        <label style="margin-left: 8px"
+          >종료일:
+          <input type="date" v-model="filterEndDate" />
+        </label>
+        <label style="margin-left: 8px"
+          >카테고리:
+          <select v-model="filterCategory">
+            <option value="">전체</option>
+            <option v-for="cat in allCategories" :key="cat.id" :value="cat.id">
+              {{ cat.name }}
+            </option>
+          </select>
+        </label>
+        <button @click="resetFilter" style="margin-left: 8px">초기화</button>
+      </div>
+    </div>
 
+    <!-- ■ 거래 목록 카드 -->
     <div class="card">
-      <p v-if="filteredEntries.length === 0" class="empty">내역이 없습니다</p>
+      <p v-if="pagedList.length === 0" class="empty">내역이 없습니다</p>
 
-      <div v-for="(entry, i) in filteredEntries" :key="i" class="entry">
+      <!-- 각 거래 항목 -->
+      <div v-for="entry in pagedList" :key="entry.id" class="entry">
         <div>
           <span style="color: #999; font-size: 12px; margin-right: 10px">
             {{ entry.date }}
           </span>
+          <span style="margin-right: 8px">{{ getCategoryName(entry) }}</span>
           <span>{{ entry.memo }}</span>
         </div>
-
-        <span :class="entry.type">
-          {{ entry.type === 'income' ? '+' : '-' }}₩{{
-            entry.amount.toLocaleString()
-          }}
-        </span>
       </div>
+    </div>
+
+    <!-- ■ 페이지네이션 -->
+    <div v-if="totalPages > 1" style="text-align: center; margin-top: 12px">
+      <button @click="currentPage--" :disabled="currentPage <= 1">이전</button>
+      <span style="margin: 0 12px">{{ currentPage }} / {{ totalPages }}</span>
+      <button @click="currentPage++" :disabled="currentPage >= totalPages">
+        다음
+      </button>
     </div>
   </div>
 </template>
 
 <script setup>
-// 1. axios와 onMounted를 추가로 불러옵니다.
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
+import { useRouter } from 'vue-router';
 import axios from 'axios';
 
+const router = useRouter();
+
+// ========== 탭 ==========
 const tabs = [
   { key: 'all', label: '전체' },
   { key: 'income', label: '수입' },
   { key: 'expense', label: '지출' },
 ];
-
 const activeTab = ref('all');
-const showModal = ref(false);
 
-// 2. 가짜 데이터를 지우고, 빈 창고(배열)만 하나 만들어 둡니다.
+// ========== 데이터 ==========
 const entries = ref([]);
+const incomeCategories = ref([]);
+const expenseCategories = ref([]);
 
-// 3. 화면이 켜질 때 db.json에서 데이터를 가져오라고 명령합니다.
-// 3. 화면이 켜질 때 db.json의 "budget" 데이터를 가져오라고 명령합니다.
-onMounted(async () => {
+// ========== 필터 ==========
+const filterStartDate = ref('');
+const filterEndDate = ref('');
+const filterCategory = ref('');
+
+// ========== 페이지네이션 ==========
+const currentPage = ref(1);
+const perPage = 15;
+
+// ========== 데이터 가져오기 ==========
+const fetchData = async () => {
   try {
-    // 🚨 주소 맨 끝부분을 entries에서 budget으로 변경했습니다!
-    const response = await axios.get('http://localhost:3000/budget');
-    entries.value = response.data; // 가져온 예산 데이터를 빈 창고에 채워넣습니다!
-  } catch (error) {
-    console.error('데이터를 불러오는데 실패했습니다:', error);
+    const [budgetRes, incRes, expRes] = await Promise.all([
+      axios.get('http://localhost:3000/budget'),
+      axios.get('http://localhost:3000/incomeCategory'),
+      axios.get('http://localhost:3000/expenseCategory'),
+    ]);
+    entries.value = budgetRes.data;
+    incomeCategories.value = incRes.data;
+    expenseCategories.value = expRes.data;
+  } catch (e) {
+    console.error('데이터 로드 실패:', e);
   }
-});
+};
+onMounted(fetchData);
 
-const goToTab = (key) => {
-  activeTab.value = key;
+// ========== 카테고리 이름 찾기 ==========
+const getCategoryName = (item) => {
+  const list =
+    item.type === 'income' ? incomeCategories.value : expenseCategories.value;
+  const found = list.find((c) => c.id === item.category);
+  return found ? found.name : '';
 };
 
-// computed는 그대로 둡니다!
-const filteredEntries = computed(() => {
-  if (activeTab.value === 'all') return entries.value;
-  return entries.value.filter((e) => e.type === activeTab.value);
+// ========== 전체 카테고리 (필터 드롭다운용) ==========
+const allCategories = computed(() => {
+  return [...incomeCategories.value, ...expenseCategories.value];
 });
+
+// ========== 탭 전환 ==========
+const goToTab = (key) => {
+  activeTab.value = key;
+  currentPage.value = 1;
+  filterCategory.value = '';
+};
+
+// ========== 탭 + 필터 적용된 목록 ==========
+const filteredList = computed(() => {
+  return entries.value.filter((item) => {
+    // 탭 필터 (전체/수입/지출)
+    if (activeTab.value !== 'all' && item.type !== activeTab.value) {
+      return false;
+    }
+    // 날짜 필터
+    if (filterStartDate.value && item.date < filterStartDate.value) {
+      return false;
+    }
+    if (filterEndDate.value && item.date > filterEndDate.value) {
+      return false;
+    }
+    // 카테고리 필터
+    if (filterCategory.value && item.category !== filterCategory.value) {
+      return false;
+    }
+    return true;
+  });
+});
+
+// ========== 페이지네이션 ==========
+const pagedList = computed(() => {
+  const start = (currentPage.value - 1) * perPage;
+  return filteredList.value.slice(start, start + perPage);
+});
+
+const totalPages = computed(() => {
+  return Math.ceil(filteredList.value.length / perPage);
+});
+
+// ========== 필터 초기화 ==========
+const resetFilter = () => {
+  filterStartDate.value = '';
+  filterEndDate.value = '';
+  filterCategory.value = '';
+  currentPage.value = 1;
+};
+
+// ========== 필터 바뀌면 1페이지로 ==========
+watch([filterStartDate, filterEndDate, filterCategory], () => {
+  currentPage.value = 1;
+});
+
+// ========== 수정 ==========
+const goEdit = (id) => {
+  router.push('/addList?edit=' + id);
+};
+
+// ========== 삭제 ==========
+const deleteItem = async (id) => {
+  if (!confirm('정말 삭제하시겠습니까?')) return;
+  try {
+    await axios.delete(`http://localhost:3000/budget/${id}`);
+    fetchData();
+  } catch (e) {
+    console.error('삭제 실패:', e);
+    alert('삭제에 실패했습니다');
+  }
+};
 </script>
 
 <style scoped>
-/* 스타일 코드는 보내주신 것과 100% 동일하게 유지했습니다 */
 .wrapper {
   display: flex;
   flex-direction: column;
@@ -83,6 +200,7 @@ const filteredEntries = computed(() => {
   padding: 1rem;
   background: #e8e6f8;
   min-height: 100vh;
+  margin-bottom: 65px;
 }
 .tab-group {
   display: flex;
