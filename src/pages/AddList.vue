@@ -40,10 +40,14 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { inject, reactive, computed } from 'vue';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+const { addTransaction } = inject('actions');
 
 // 1. 입력할 데이터를 한 곳에 모아두는 form 객체
-const form = ref({
+const form = reactive({
   type: 'expense', // 기본값을 '지출'로 설정해두면 편합니다
   date: '',
   amount: null,
@@ -67,7 +71,7 @@ const expenseCategories = [
 // 3. 핵심 포인트: 거래종류(form.type)가 바뀔 때마다 카테고리 목록을 자동으로 바꿔주는 computed
 const categoryList = computed(() => {
   // form.type이 'income'이면 수입 카테고리를, 아니면 지출 카테고리를 반환합니다.
-  if (form.value.type === 'income') {
+  if (form.type === 'income') {
     return incomeCategories;
   } else {
     return expenseCategories;
@@ -76,6 +80,7 @@ const categoryList = computed(() => {
 
 // 4. 취소 버튼 함수
 const goBack = () => {
+  router.push('/transaction')
   alert('이전 화면으로 돌아갑니다.');
   // 나중에 여기에 라우터 이동 코드 (예: router.go(-1))를 넣으면 됩니다.
 };
@@ -83,15 +88,22 @@ const goBack = () => {
 // 5. 저장 버튼 함수
 const saveTransaction = () => {
   // 간단한 빈칸 검사 (Validation)
-  if (!form.value.date || !form.value.amount || !form.value.category) {
+  if (!form.date || !form.amount || !form.category) {
     alert('날짜, 금액, 카테고리는 꼭 입력해주세요!');
     return;
   }
 
-  // 데이터가 잘 담겼는지 개발자 도구 콘솔에서 확인해보세요
-  console.log('저장될 데이터:', form.value);
-  alert('가계부에 잘 저장되었습니다!');
+  // try{
+  //   const response = await axios.post('date, type, amount, category, memo')
+  // }
 
+  // 데이터가 잘 담겼는지 개발자 도구 콘솔에서 확인해보세요
+  console.log('저장될 데이터:', form);
+
+   addTransaction({ ...form }, () => {
+  alert('가계부에 잘 저장되었습니다!');
+router.push('/transaction');
+  });
   // 💡 알고 계신 Pinia나 Axios를 바로 이 부분에 추가하게 됩니다.
   // 예시 1) axios.post('/api/add', form.value)
   // 예시 2) accountStore.addList(form.value)
