@@ -1,45 +1,111 @@
 <template>
-  <section class="summary-page">
+  <section
+    class="summary-page"
+    :class="{ 'summary-page--entering': isEntering }"
+  >
+    <div class="ai-intro" aria-hidden="true">
+      <div class="ai-intro__wash" />
+      <div class="ai-intro__orb ai-intro__orb--violet" />
+      <div class="ai-intro__orb ai-intro__orb--cyan" />
+      <div class="ai-intro__orb ai-intro__orb--gold" />
+      <div class="ai-intro__grid" />
+    </div>
+
     <div class="summary-card">
-      <p class="eyebrow">Monthly Expense Trend</p>
-      <h2 class="title">월별 지출 추이</h2>
+      <p class="eyebrow">AI Summary</p>
+      <h2 class="title">월별 수입/지출 추이</h2>
       <p class="description">
-        `db.json`의 <code>budget</code> 데이터에서 지출만 모아 월별 흐름과 선택한
-        달의 카테고리별 지출 합계를 함께 보여줍니다.
+        월별 수입, 지출, 순합계를 한 번에 확인하고 선택한 달의 카테고리별 지출
+        비중까지 함께 볼 수 있어요.
       </p>
 
       <div v-if="loading" class="status-box">데이터를 불러오는 중입니다.</div>
       <div v-else-if="error" class="status-box error">{{ error }}</div>
 
       <template v-else>
-        <div v-if="monthlyExpenseTrend.length" class="chart-card">
+        <div v-if="monthlySummary.length" class="chart-card">
           <div class="chart-head">
             <div>
-              <p class="chart-label">최근 월별 합계</p>
-              <strong class="chart-value">{{ formatCurrency(totalExpense) }}</strong>
+              <p class="chart-label">전체 지출 합계</p>
+              <strong class="chart-value">{{
+                formatCurrency(totalExpense)
+              }}</strong>
             </div>
-            <p class="chart-subtext">전체 {{ monthlyExpenseTrend.length }}개월 지출 합계</p>
+            <p class="chart-subtext">{{ monthlyRangeText }}</p>
           </div>
 
-          <div class="chart-grid" aria-label="월별 지출 추이 그래프">
-            <div
-              v-for="item in monthlyExpenseTrend"
-              :key="item.month"
-              class="bar-group"
+          <div class="line-chart-card" aria-label="Monthly summary chart">
+            <div class="chart-legend">
+              <span
+                v-for="series in chartSeriesMeta"
+                :key="series.key"
+                class="legend-item"
+              >
+                <span class="legend-swatch" :class="series.className" />
+                {{ series.label }}
+              </span>
+            </div>
+
+            <svg
+              class="line-chart"
+              viewBox="0 0 360 240"
+              role="img"
+              aria-hidden="true"
+              preserveAspectRatio="none"
             >
-              <span class="bar-value">{{ formatCurrency(item.expense) }}</span>
-              <div class="bar-track">
-                <div class="bar-fill" :style="{ height: `${item.ratio}%` }" />
+              <line
+                v-for="guide in chartGuides"
+                :key="guide.y"
+                class="chart-guide"
+                x1="24"
+                :y1="guide.y"
+                x2="336"
+                :y2="guide.y"
+              />
+
+              <g v-for="series in lineChartSeries" :key="series.key">
+                <polyline
+                  class="chart-line"
+                  :class="series.className"
+                  :points="series.points"
+                />
+                <circle
+                  v-for="point in series.pointList"
+                  :key="`${series.key}-${point.month}`"
+                  class="chart-point"
+                  :class="series.className"
+                  :cx="point.x"
+                  :cy="point.y"
+                  r="4.5"
+                />
+              </g>
+            </svg>
+
+            <div class="line-chart-labels">
+              <div
+                v-for="item in monthlySummary"
+                :key="`${item.month}-label`"
+                class="line-chart-item"
+              >
+                <span class="line-month">{{ item.label }}</span>
+                <span class="line-value income"
+                  >수입 {{ formatCurrency(item.income) }}</span
+                >
+                <span class="line-value expense"
+                  >지출 {{ formatCurrency(item.expense) }}</span
+                >
+                <span class="line-value total"
+                  >순합계 {{ formatCurrency(item.total) }}</span
+                >
               </div>
-              <span class="bar-month">{{ item.label }}</span>
             </div>
           </div>
         </div>
 
-        <div v-if="monthlyExpenseTrend.length" class="chart-card secondary-card">
+        <div v-if="monthlySummary.length" class="chart-card secondary-card">
           <div class="chart-head">
             <div>
-              <p class="chart-label">카테고리별 지출 합계</p>
+              <p class="chart-label">카테고리별 지출 비중</p>
               <strong class="chart-value">{{ selectedMonthDisplay }}</strong>
             </div>
             <p class="chart-subtext">
@@ -47,9 +113,12 @@
             </p>
           </div>
 
-          <div class="month-selector" aria-label="카테고리 그래프 월 선택">
+          <div
+            class="month-selector"
+            aria-label="Select month for category chart"
+          >
             <button
-              v-for="item in monthlyExpenseTrend"
+              v-for="item in monthlySummary"
               :key="`${item.month}-button`"
               type="button"
               class="month-chip"
@@ -63,7 +132,7 @@
           <div
             v-if="categoryExpenseTrend.length"
             class="category-chart"
-            aria-label="선택한 달의 카테고리별 지출 그래프"
+            aria-label="Selected month category expense chart"
           >
             <article
               v-for="item in categoryExpenseTrend"
@@ -82,44 +151,27 @@
                   />
                 </div>
               </div>
-              <strong class="category-amount">{{ formatCurrency(item.amount) }}</strong>
+              <strong class="category-amount">{{
+                formatCurrency(item.amount)
+              }}</strong>
             </article>
           </div>
 
           <div v-else class="status-box inner-status">
-            선택한 달의 카테고리 지출 데이터가 없습니다.
+            선택한 달의 카테고리별 지출 데이터가 없습니다.
           </div>
         </div>
 
-        <div v-if="monthlyExpenseTrend.length" class="table-card">
-          <div class="table-head">
-            <h3>월별 요약</h3>
-            <p>지출이 가장 큰 달은 {{ highestExpenseMonthLabel }}입니다.</p>
-          </div>
-
-          <div class="summary-list">
-            <article
-              v-for="item in monthlyExpenseTrend"
-              :key="`${item.month}-summary`"
-              class="summary-item"
-            >
-              <div>
-                <p class="summary-month">{{ item.label }}</p>
-                <p class="summary-caption">총 지출</p>
-              </div>
-              <strong class="summary-amount">{{ formatCurrency(item.expense) }}</strong>
-            </article>
-          </div>
-        </div>
-
-        <div v-else class="status-box">표시할 지출 데이터가 없습니다.</div>
+        <div v-else class="status-box">표시할 월별 데이터가 없습니다.</div>
       </template>
     </div>
   </section>
+  <br />
+  <br />
 </template>
 
 <script setup>
-import { computed, onMounted, ref, watch } from 'vue';
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import axios from 'axios';
 
 const budget = ref([]);
@@ -127,6 +179,9 @@ const expenseCategories = ref([]);
 const selectedMonth = ref('');
 const loading = ref(true);
 const error = ref('');
+const isEntering = ref(true);
+
+let introTimer;
 
 const formatCurrency = (value) =>
   new Intl.NumberFormat('ko-KR', {
@@ -135,62 +190,155 @@ const formatCurrency = (value) =>
     maximumFractionDigits: 0,
   }).format(value);
 
+const formatMonthLabel = (month) => {
+  if (!month) {
+    return '-';
+  }
+
+  const [, monthValue] = month.split('-');
+  return `${Number(monthValue)}월`;
+};
+
+const formatMonthDisplay = (month) => {
+  if (!month) {
+    return '-';
+  }
+
+  const [year, monthValue] = month.split('-');
+  return `${year}년 ${Number(monthValue)}월`;
+};
+
 onMounted(async () => {
+  introTimer = window.setTimeout(() => {
+    isEntering.value = false;
+  }, 2200);
+
   try {
     const [budgetResponse, categoryResponse] = await Promise.all([
       axios.get('http://localhost:3000/budget'),
       axios.get('http://localhost:3000/expenseCategory'),
     ]);
 
-    budget.value = Array.isArray(budgetResponse.data) ? budgetResponse.data : [];
+    budget.value = Array.isArray(budgetResponse.data)
+      ? budgetResponse.data
+      : [];
     expenseCategories.value = Array.isArray(categoryResponse.data)
       ? categoryResponse.data
       : [];
   } catch (err) {
     error.value =
-      '지출 데이터를 불러오지 못했습니다. json-server 실행 상태를 확인해 주세요.';
+      '데이터를 불러오지 못했습니다. json-server 실행 상태를 확인해 주세요.';
     console.error(err);
   } finally {
     loading.value = false;
   }
 });
 
-const monthlyExpenseTrend = computed(() => {
+onBeforeUnmount(() => {
+  if (introTimer) {
+    window.clearTimeout(introTimer);
+  }
+});
+
+const monthlySummary = computed(() => {
   const grouped = budget.value.reduce((acc, item) => {
-    if (item.type !== 'expense' || !item.date) {
+    if (!item.date) {
       return acc;
     }
 
     const month = item.date.slice(0, 7);
-    acc[month] = (acc[month] || 0) + Number(item.amount || 0);
+    const currentMonth = acc[month] || { income: 0, expense: 0 };
+
+    if (item.type === 'income') {
+      currentMonth.income += Number(item.amount || 0);
+    }
+
+    if (item.type === 'expense') {
+      currentMonth.expense += Number(item.amount || 0);
+    }
+
+    acc[month] = currentMonth;
     return acc;
   }, {});
 
-  const entries = Object.entries(grouped)
+  return Object.entries(grouped)
     .sort(([monthA], [monthB]) => monthA.localeCompare(monthB))
-    .map(([month, expense]) => ({
+    .map(([month, amounts]) => ({
       month,
-      expense,
-      label: month.replace('-', '.'),
+      income: amounts.income,
+      expense: amounts.expense,
+      total: amounts.income - amounts.expense,
+      label: formatMonthLabel(month),
+      fullLabel: formatMonthDisplay(month),
     }));
+});
 
-  const maxExpense = Math.max(...entries.map((item) => item.expense), 0);
+const chartGuides = computed(() => [56, 108, 160, 212].map((y) => ({ y })));
 
-  return entries.map((item) => ({
+const chartSeriesMeta = [
+  { key: 'income', label: '수입', className: 'income' },
+  { key: 'expense', label: '지출', className: 'expense' },
+  { key: 'total', label: '순합계', className: 'total' },
+];
+
+const lineChartData = computed(() => {
+  const items = monthlySummary.value;
+
+  if (!items.length) {
+    return [];
+  }
+
+  const chartWidth = 312;
+  const chartHeight = 156;
+  const left = 24;
+  const top = 36;
+  const bottom = top + chartHeight;
+  const maxValue = Math.max(
+    ...items.flatMap((item) => [item.income, item.expense, item.total]),
+    0,
+  );
+  const stepX = items.length === 1 ? 0 : chartWidth / (items.length - 1);
+
+  return items.map((item, index) => ({
     ...item,
-    ratio: maxExpense ? Math.round((item.expense / maxExpense) * 100) : 0,
+    x: left + stepX * index,
+    points: {
+      income: maxValue
+        ? bottom - (item.income / maxValue) * chartHeight
+        : bottom,
+      expense: maxValue
+        ? bottom - (item.expense / maxValue) * chartHeight
+        : bottom,
+      total: maxValue ? bottom - (item.total / maxValue) * chartHeight : bottom,
+    },
   }));
 });
 
+const lineChartSeries = computed(() =>
+  chartSeriesMeta.map((series) => ({
+    ...series,
+    points: lineChartData.value
+      .map((point) => `${point.x},${point.points[series.key]}`)
+      .join(' '),
+    pointList: lineChartData.value.map((point) => ({
+      month: point.month,
+      x: point.x,
+      y: point.points[series.key],
+    })),
+  })),
+);
+
 watch(
-  monthlyExpenseTrend,
+  monthlySummary,
   (months) => {
     if (!months.length) {
       selectedMonth.value = '';
       return;
     }
 
-    const hasSelectedMonth = months.some((item) => item.month === selectedMonth.value);
+    const hasSelectedMonth = months.some(
+      (item) => item.month === selectedMonth.value,
+    );
 
     if (!hasSelectedMonth) {
       selectedMonth.value = months[months.length - 1].month;
@@ -204,23 +352,26 @@ const selectedMonthDisplay = computed(() => {
     return '-';
   }
 
-  return selectedMonth.value.replace('-', '.');
+  return formatMonthDisplay(selectedMonth.value);
 });
 
 const totalExpense = computed(() =>
-  monthlyExpenseTrend.value.reduce((sum, item) => sum + item.expense, 0),
+  monthlySummary.value.reduce((sum, item) => sum + item.expense, 0),
 );
 
-const highestExpenseMonthLabel = computed(() => {
-  if (!monthlyExpenseTrend.value.length) {
-    return '-';
+const monthlyRangeText = computed(() => {
+  if (!monthlySummary.value.length) {
+    return '';
   }
 
-  const highest = [...monthlyExpenseTrend.value].sort(
-    (a, b) => b.expense - a.expense,
-  )[0];
+  const firstMonth = monthlySummary.value[0];
+  const lastMonth = monthlySummary.value[monthlySummary.value.length - 1];
 
-  return `${highest.label} (${formatCurrency(highest.expense)})`;
+  if (firstMonth.month === lastMonth.month) {
+    return `${firstMonth.fullLabel} 지출 합계`;
+  }
+
+  return `${firstMonth.fullLabel} ~ ${lastMonth.fullLabel} (${monthlySummary.value.length}개월)`;
 });
 
 const categoryExpenseTrend = computed(() => {
@@ -275,20 +426,142 @@ const selectedMonthExpenseTotal = computed(() =>
   box-sizing: border-box;
   margin: 0 auto;
   max-width: 460px;
-  padding: 20px 0 40px;
+  min-height: calc(100vh - 84px);
+  padding: 12px 0 40px;
+  position: relative;
   width: 100%;
 }
 
+.ai-intro {
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  position: fixed;
+  z-index: 20;
+}
+
+.summary-page:not(.summary-page--entering) .ai-intro {
+  opacity: 0;
+  transition: opacity 0.7s ease;
+}
+
+.ai-intro__wash,
+.ai-intro__orb,
+.ai-intro__grid {
+  position: absolute;
+}
+
+.ai-intro__wash {
+  animation: prism-fade 2.1s ease forwards;
+  background: linear-gradient(
+    120deg,
+    rgba(93, 76, 229, 0.36),
+    rgba(66, 192, 255, 0.34) 28%,
+    rgba(255, 184, 77, 0.3) 52%,
+    rgba(255, 112, 166, 0.3) 76%,
+    rgba(93, 76, 229, 0.34)
+  );
+  inset: -12%;
+  mix-blend-mode: screen;
+  transform: translateX(-8%) scale(1.08);
+}
+
+.ai-intro__orb {
+  animation: orb-float 2.2s ease forwards;
+  border-radius: 999px;
+  filter: blur(18px);
+  opacity: 0.85;
+}
+
+.ai-intro__orb--violet {
+  background: radial-gradient(
+    circle,
+    rgba(116, 92, 255, 0.68),
+    transparent 68%
+  );
+  height: 320px;
+  right: -48px;
+  top: 8%;
+  width: 320px;
+}
+
+.ai-intro__orb--cyan {
+  background: radial-gradient(
+    circle,
+    rgba(72, 206, 255, 0.56),
+    transparent 68%
+  );
+  height: 280px;
+  left: -72px;
+  top: 24%;
+  width: 280px;
+}
+
+.ai-intro__orb--gold {
+  background: radial-gradient(
+    circle,
+    rgba(255, 196, 87, 0.46),
+    transparent 70%
+  );
+  bottom: 10%;
+  height: 260px;
+  left: 24%;
+  width: 260px;
+}
+
+.ai-intro__grid {
+  animation: grid-fade 2.05s ease forwards;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.16) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.16) 1px, transparent 1px);
+  background-position: center;
+  background-size: 36px 36px;
+  inset: 0;
+  mask-image: radial-gradient(circle at center, black 28%, transparent 80%);
+  opacity: 0.55;
+}
+
 .summary-card {
+  animation: card-settle 1.35s cubic-bezier(0.2, 0.9, 0.2, 1) both;
   background:
-    radial-gradient(circle at top right, rgba(234, 179, 8, 0.22), transparent 28%),
-    linear-gradient(160deg, #fffdf7 0%, #f4efe4 100%);
+    radial-gradient(
+      circle at top right,
+      rgba(234, 179, 8, 0.22),
+      transparent 28%
+    ),
+    linear-gradient(
+      160deg,
+      rgba(255, 253, 247, 0.96) 0%,
+      rgba(244, 239, 228, 0.98) 100%
+    );
   border: 1px solid #eadfca;
   border-radius: 28px;
-  box-shadow: 0 18px 40px rgba(87, 62, 20, 0.08);
+  box-shadow:
+    0 18px 40px rgba(87, 62, 20, 0.08),
+    0 0 0 1px rgba(255, 255, 255, 0.32) inset;
   box-sizing: border-box;
+  overflow: hidden;
   padding: 24px;
+  position: relative;
   width: 100%;
+  z-index: 1;
+}
+
+.summary-page--entering .summary-card::before {
+  animation: card-prism 1.8s ease-out forwards;
+  background: linear-gradient(
+    110deg,
+    transparent 10%,
+    rgba(255, 255, 255, 0.26) 24%,
+    rgba(120, 196, 255, 0.28) 35%,
+    rgba(151, 120, 255, 0.24) 48%,
+    rgba(255, 193, 89, 0.24) 62%,
+    transparent 82%
+  );
+  content: '';
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
 }
 
 .eyebrow {
@@ -313,7 +586,6 @@ const selectedMonthExpenseTotal = computed(() =>
 }
 
 .chart-card,
-.table-card,
 .status-box {
   background: rgba(255, 255, 255, 0.72);
   border: 1px solid rgba(140, 106, 54, 0.12);
@@ -323,8 +595,11 @@ const selectedMonthExpenseTotal = computed(() =>
 }
 
 .secondary-card {
-  background:
-    linear-gradient(180deg, rgba(255, 253, 247, 0.96), rgba(253, 247, 234, 0.94));
+  background: linear-gradient(
+    180deg,
+    rgba(255, 253, 247, 0.96),
+    rgba(253, 247, 234, 0.94)
+  );
 }
 
 .status-box {
@@ -340,84 +615,154 @@ const selectedMonthExpenseTotal = computed(() =>
   margin-top: 16px;
 }
 
-.chart-head,
-.table-head,
-.summary-item {
+.chart-head {
   align-items: center;
   display: flex;
-  justify-content: space-between;
   gap: 12px;
+  justify-content: space-between;
 }
 
 .chart-label,
-.summary-caption,
-.chart-subtext,
-.table-head p,
-.summary-month {
+.chart-subtext {
   margin: 0;
 }
 
-.chart-label,
-.summary-caption {
+.chart-label {
   color: #8a7354;
   font-size: 0.82rem;
 }
 
-.chart-value,
-.summary-amount {
+.chart-value {
   color: #2f2416;
   font-size: 1.2rem;
 }
 
-.chart-subtext,
-.table-head p {
+.chart-subtext {
   color: #6f5d46;
   font-size: 0.9rem;
 }
 
-.chart-grid {
-  align-items: end;
-  display: grid;
-  gap: 14px;
-  grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+.line-chart-card {
   margin-top: 22px;
 }
 
-.bar-group {
-  align-items: stretch;
+.chart-legend {
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  margin-bottom: 12px;
 }
 
-.bar-value,
-.bar-month {
-  color: #5f4c36;
+.legend-item {
+  align-items: center;
+  color: #6f5d46;
+  display: inline-flex;
   font-size: 0.82rem;
+  font-weight: 700;
+  gap: 8px;
+}
+
+.legend-swatch {
+  border-radius: 999px;
+  display: inline-block;
+  height: 10px;
+  width: 24px;
+}
+
+.legend-swatch.income {
+  background: #2f9e8f;
+}
+
+.legend-swatch.expense {
+  background: #d2672a;
+}
+
+.legend-swatch.total {
+  background: #7058d8;
+}
+
+.line-chart {
+  display: block;
+  height: 240px;
+  overflow: visible;
+  width: 100%;
+}
+
+.chart-guide {
+  stroke: rgba(154, 107, 0, 0.12);
+  stroke-dasharray: 4 6;
+  stroke-width: 1;
+}
+
+.chart-line {
+  animation: rise 0.7s ease;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 4;
+}
+
+.chart-line.income {
+  stroke: #2f9e8f;
+}
+
+.chart-line.expense {
+  stroke: #d2672a;
+}
+
+.chart-line.total {
+  stroke: #7058d8;
+}
+
+.chart-point {
+  fill: #fff7e3;
+  stroke-width: 3;
+}
+
+.chart-point.income {
+  stroke: #2f9e8f;
+}
+
+.chart-point.expense {
+  stroke: #d2672a;
+}
+
+.chart-point.total {
+  stroke: #7058d8;
+}
+
+.line-chart-labels {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(72px, 1fr));
+  margin-top: 8px;
+}
+
+.line-chart-item {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
   text-align: center;
 }
 
-.bar-track {
-  align-items: end;
-  background:
-    linear-gradient(to top, rgba(194, 168, 116, 0.12), rgba(194, 168, 116, 0.02));
-  border: 1px solid rgba(154, 107, 0, 0.08);
-  border-radius: 18px;
-  display: flex;
-  height: 220px;
-  overflow: hidden;
-  padding: 8px;
+.line-value,
+.line-month {
+  color: #5f4c36;
+  font-size: 0.82rem;
 }
 
-.bar-fill {
-  align-self: flex-end;
-  animation: rise 0.7s ease;
-  background: linear-gradient(180deg, #f5ba33 0%, #cc7f17 100%);
-  border-radius: 14px;
-  box-shadow: 0 10px 24px rgba(204, 127, 23, 0.28);
-  display: block;
-  min-height: 10px;
-  width: 100%;
+.line-value.income {
+  color: #1f7f73;
+}
+
+.line-value.expense {
+  color: #b4511b;
+}
+
+.line-value.total {
+  color: #5b46bc;
+  font-weight: 700;
 }
 
 .month-selector {
@@ -474,8 +819,8 @@ const selectedMonthExpenseTotal = computed(() =>
 .category-title-row {
   align-items: center;
   display: flex;
-  justify-content: space-between;
   gap: 12px;
+  justify-content: space-between;
   margin-bottom: 8px;
 }
 
@@ -508,38 +853,15 @@ const selectedMonthExpenseTotal = computed(() =>
   min-width: 10px;
 }
 
-.table-head {
-  margin-bottom: 14px;
-}
-
-.table-head h3 {
-  color: #2f2416;
-  margin: 0;
-}
-
-.summary-list {
-  display: grid;
-  gap: 12px;
-}
-
-.summary-item {
-  background: rgba(255, 249, 238, 0.92);
-  border-radius: 16px;
-  padding: 14px 16px;
-}
-
-.summary-month {
-  color: #2f2416;
-  font-weight: 700;
-}
-
 @keyframes rise {
   from {
-    height: 0;
+    opacity: 0;
+    transform: translateY(12px);
   }
 
   to {
-    height: 100%;
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
@@ -550,6 +872,97 @@ const selectedMonthExpenseTotal = computed(() =>
 
   to {
     width: 100%;
+  }
+}
+
+@keyframes prism-fade {
+  0% {
+    opacity: 0;
+    transform: translateX(-8%) scale(1.08);
+  }
+
+  18% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateX(8%) scale(1.02);
+  }
+}
+
+@keyframes orb-float {
+  0% {
+    opacity: 0;
+    transform: scale(0.78) translateY(18px);
+  }
+
+  22% {
+    opacity: 0.9;
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.08) translateY(-22px);
+  }
+}
+
+@keyframes grid-fade {
+  0% {
+    opacity: 0;
+    transform: scale(1.06);
+  }
+
+  24% {
+    opacity: 0.55;
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+
+@keyframes card-settle {
+  0% {
+    opacity: 0;
+    transform: translateY(26px) scale(0.985);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes card-prism {
+  0% {
+    opacity: 0;
+    transform: translateX(-38%);
+  }
+
+  25% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateX(38%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ai-intro,
+  .summary-card::before,
+  .summary-card,
+  .chart-line,
+  .category-fill {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .summary-page--entering .ai-intro {
+    opacity: 0;
   }
 }
 
@@ -565,16 +978,18 @@ const selectedMonthExpenseTotal = computed(() =>
   }
 
   .chart-head,
-  .table-head,
-  .summary-item,
   .category-row {
     align-items: flex-start;
     flex-direction: column;
   }
 
-  .chart-grid {
+  .line-chart {
+    height: 220px;
+  }
+
+  .line-chart-labels {
     gap: 10px;
-    grid-template-columns: repeat(auto-fit, minmax(72px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(64px, 1fr));
   }
 
   .category-row {
