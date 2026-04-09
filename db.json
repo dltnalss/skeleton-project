@@ -191,6 +191,70 @@
       "amount": 20000,
       "category": "21",
       "memo": "카페 + 디저트"
+    },
+    {
+      "date": "2026-04-08",
+      "type": "expense",
+      "amount": 30000,
+      "category": "23",
+      "memo": "병원비",
+      "id": "MXcqKn5XPvA"
+    },
+    {
+      "date": "2026-04-08",
+      "type": "expense",
+      "amount": 30000,
+      "category": "23",
+      "memo": "병원비",
+      "id": "Eh75xsXPQFg"
+    },
+    {
+      "date": "2026-04-08",
+      "type": "expense",
+      "amount": 11,
+      "category": "21",
+      "memo": "11",
+      "id": "k1UMdMQdJWw"
+    },
+    {
+      "date": "2026-04-08",
+      "type": "expense",
+      "amount": 11,
+      "category": "21",
+      "memo": "11",
+      "id": "8AyKyIVY64E"
+    },
+    {
+      "date": "2026-04-08",
+      "type": "income",
+      "amount": 1000,
+      "category": "14",
+      "memo": "gd",
+      "id": "lYMR7SqmN7A"
+    },
+    {
+      "date": "2026-04-07",
+      "type": "expense",
+      "amount": 5000,
+      "category": "21",
+      "memo": "싸다김밥",
+      "id": "-_1BvYf7xVg"
+    },
+    {
+      "date": "2026-04-08",
+      "type": "expense",
+      "amount": 50000,
+      "category": "21",
+      "memo": "떡볶이",
+      "id": "VNil8pJYKvU"
+    },
+    {
+      "date": "2026-04-08",
+      "type": "expense",
+      "amount": 1000,
+      "category": "22",
+      "memo": "버스비 톨비",
+      "id": "AQ61mN1O6NM"
     }
   ],
   "incomeCategory": [
@@ -256,5 +320,6 @@
       "totalamount": 3000000,
       "category": "23"
     }
-  ]
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }
