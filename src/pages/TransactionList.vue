@@ -1,11 +1,14 @@
 <template>
   <div class="card card-body">
     <table>
+    <thead>
       <tr>
         <th>날짜</th>
         <th>내역</th>
         <th>금액</th>
       </tr>
+    </thead>
+<tbody>
       <tr v-for="List in states.MyList" :key="List.id">
         <td>{{ List.date }}</td>
         <td>{{ List.memo }}</td>
@@ -14,6 +17,7 @@
           {{ List.amount.toLocaleString() }}원
         </td>
       </tr>
+      </tbody>
     </table>
   </div>
 </template>
