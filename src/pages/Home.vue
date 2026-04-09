@@ -119,6 +119,7 @@
     <div v-if="recentTransactions.length === 0">거래내역이 없습니다.</div>
   </div>
 
+  <!-- 플러스 버튼 -->
   <button id="plusButton">
     <router-link to="/addList">+</router-link>
   </button>
@@ -375,6 +376,7 @@ export default {
 </script>
 
 <style scoped>
+/* 플러스 버튼 디자인 */
 #plusButton {
   border-radius: 50%;
   background-color: rgb(190, 190, 255);

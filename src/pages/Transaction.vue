@@ -19,6 +19,7 @@
     </table>
   </div>
 
+  <!-- 플러스 버튼 -->
   <button id="plusButton">
     <router-link to="/addList">+</router-link>
   </button>
@@ -51,6 +52,7 @@ fetchMyList();
 </script>
 
 <style scoped>
+/* 플러스 버튼 디자인 */
 #plusButton {
   border-radius: 50%;
   background-color: rgb(190, 190, 255);
