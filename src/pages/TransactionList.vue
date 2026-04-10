@@ -103,9 +103,19 @@ fetchMyList();
 
 const router = useRouter();
 
+// const goToEdit = (id) => {
+//   console.log('눌린 ID : ', id); // 원준
+//   router.push({ name: 'detailedit/id', params: { id } });
+// };
+
 const goToEdit = (id) => {
-  console.log('눌린 ID : ', id); // 원준
-  router.push({ name: 'detailedit', params: { id: id } });
+  console.log('눌린 ID : ', id);
+
+  router.push({
+    name: 'detailedit/id',
+    params: { id: id },
+    query: { from: route.fullPath.substring(1) }, // 💡 핵심: 현재 전체 경로를 'from'이라는 이름으로 담아 보냄
+  });
 };
 
 // const editList = async ({}) => {

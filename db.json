@@ -4,7 +4,7 @@
       "id": "12",
       "date": "2026-04-06",
       "type": "expense",
-      "amount": 28000,
+      "amount": 500002342,
       "category": "21",
       "memo": "치킨 배달"
     },
@@ -28,7 +28,7 @@
       "id": "17",
       "date": "2026-03-01",
       "type": "income",
-      "amount": 200000,
+      "amount": 20000211,
       "category": "13",
       "memo": "3월 KB지원금"
     },
@@ -129,12 +129,12 @@
       "id": "S9N8Izy"
     },
     {
-      "type": "income",
+      "id": "u8zthoWyX9g",
       "date": "2026-04-10",
-      "amount": 1234579,
+      "type": "income",
+      "amount": 1234579343443,
       "category": "11",
-      "memo": "",
-      "id": "u8zthoWyX9g"
+      "memo": ""
     }
   ],
   "incomeCategory": [
