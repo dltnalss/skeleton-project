@@ -1,22 +1,6 @@
 {
   "budget": [
     {
-      "id": "10",
-      "date": "2026-04-05",
-      "type": "expense",
-      "amount": 3000,
-      "category": "22",
-      "memo": "지하철 왕복"
-    },
-    {
-      "id": "11",
-      "date": "2026-04-05",
-      "type": "income",
-      "amount": 50000,
-      "category": "14",
-      "memo": "부모님 용돈"
-    },
-    {
       "id": "12",
       "date": "2026-04-06",
       "type": "expense",
@@ -113,38 +97,6 @@
       "id": "MXcqKn5XPvA"
     },
     {
-      "date": "2026-04-08",
-      "type": "expense",
-      "amount": 30000,
-      "category": "23",
-      "memo": "병원비",
-      "id": "Eh75xsXPQFg"
-    },
-    {
-      "date": "2026-04-08",
-      "type": "expense",
-      "amount": 11,
-      "category": "21",
-      "memo": "11",
-      "id": "k1UMdMQdJWw"
-    },
-    {
-      "date": "2026-04-08",
-      "type": "expense",
-      "amount": 11,
-      "category": "21",
-      "memo": "11",
-      "id": "8AyKyIVY64E"
-    },
-    {
-      "date": "2026-04-08",
-      "type": "income",
-      "amount": 1000,
-      "category": "14",
-      "memo": "gd",
-      "id": "lYMR7SqmN7A"
-    },
-    {
       "date": "2026-04-07",
       "type": "expense",
       "amount": 5000,
@@ -167,22 +119,6 @@
       "category": "22",
       "memo": "버스비 톨비",
       "id": "AQ61mN1O6NM"
-    },
-    {
-      "type": "income",
-      "date": "2026-04-10",
-      "amount": 123142,
-      "category": "11",
-      "memo": "",
-      "id": "ukVshHs"
-    },
-    {
-      "type": "expense",
-      "date": "2026-04-10",
-      "amount": 1231323,
-      "category": "21",
-      "memo": "ewrwer",
-      "id": "Jzwb1dr"
     },
     {
       "type": "expense",

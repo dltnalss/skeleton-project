@@ -18,7 +18,12 @@
           </td>
           <td class="text-center">
             <div class="d-flex justify-content-center gap-1">
-              <button class="btn btn-outline-primary">편집</button>
+              <button
+                class="btn btn-outline-primary"
+                @click="goToEdit(List.id)"
+              >
+                편집
+              </button>
               <button class="btn btn-outline-primary" @click="deleteList(List)">
                 삭제
               </button>
@@ -34,6 +39,8 @@
 import { useRoute } from 'vue-router';
 import { reactive, watch } from 'vue';
 import axios from 'axios';
+import { useRouter } from 'vue-router';
+import DetailEdit from './DetailEdit.vue';
 
 const BASEURI = '/api/budget';
 const route = useRoute();
@@ -93,6 +100,13 @@ watch(
   { immediate: true },
 );
 fetchMyList();
+
+const router = useRouter();
+
+const goToEdit = (id) => {
+  console.log('눌린 ID : ', id); // 원준
+  router.push({ name: 'detailedit', params: { id: id } });
+};
 
 // const editList = async ({}) => {
 //   if (!confirm('정말 이 내역을 삭제하시겠습니까 ?')) return;

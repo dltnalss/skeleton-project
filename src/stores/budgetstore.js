@@ -12,10 +12,12 @@ export const useBudgetStore = defineStore('budget', {
   actions: {
     // 수입/지출 카테고리 정보 로드
     async initData() {
+      console.log('현재 주소:', BASE_URL);
       try {
+        const API_ROOT = BASE_URL.replace('/budget', '');
         const [income, expense] = await Promise.all([
-          axios.get(`${BASE_URL}/incomeCategory`),
-          axios.get(`${BASE_URL}/expenseCategory`),
+          axios.get(`${API_ROOT}/incomeCategory`),
+          axios.get(`${API_ROOT}/expenseCategory`),
         ]);
         this.incomeCategories = income.data;
         this.expenseCategories = expense.data;
