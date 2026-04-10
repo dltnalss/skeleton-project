@@ -46,7 +46,7 @@
     -->
     <div class="card">
       <!-- 구분란 (헤더) -->
-      <div
+      <!-- <div
         class="entry"
         style="font-weight: bold; border-bottom: 2px solid #333"
       >
@@ -57,10 +57,10 @@
         <span style="width: 80px; text-align: center">관리</span>
       </div>
 
-      <p v-if="pagedList.length === 0" class="empty">내역이 없습니다</p>
-
+      <p v-if="pagedList.length === 0" class="empty">내역이 없습니다</p> -->
+      <router-view></router-view>
       <!-- 각 거래 항목 -->
-      <div v-for="(entry, index) in pagedList" :key="entry.id" class="entry">
+      <!-- <div v-for="(entry, index) in pagedList" :key="entry.id" class="entry">
         <span style="width: 35px; text-align: center">
           {{ (currentPage - 1) * perPage + index + 1 }}
         </span>
@@ -98,17 +98,16 @@
             삭제
           </button>
         </span>
-      </div>
+      </div> -->
     </div>
-  </div>
-
-  <!-- ★ 추가 (69~75줄): 페이지네이션 -->
-  <div v-if="totalPages > 1" style="text-align: center; margin-top: 12px">
-    <button @click="currentPage--" :disabled="currentPage <= 1">이전</button>
-    <span style="margin: 0 12px">{{ currentPage }} / {{ totalPages }}</span>
-    <button @click="currentPage++" :disabled="currentPage >= totalPages">
-      다음
-    </button>
+    <!-- ★ 추가 (69~75줄): 페이지네이션 -->
+    <div v-if="totalPages > 1" style="text-align: center; margin-top: 12px">
+      <button @click="currentPage--" :disabled="currentPage <= 1">이전</button>
+      <span style="margin: 0 12px">{{ currentPage }} / {{ totalPages }}</span>
+      <button @click="currentPage++" :disabled="currentPage >= totalPages">
+        다음
+      </button>
+    </div>
   </div>
 </template>
 
