@@ -127,6 +127,14 @@
       "category": "22",
       "memo": "qw",
       "id": "S9N8Izy"
+    },
+    {
+      "type": "income",
+      "date": "2026-04-10",
+      "amount": 1234579,
+      "category": "11",
+      "memo": "",
+      "id": "u8zthoWyX9g"
     }
   ],
   "incomeCategory": [
