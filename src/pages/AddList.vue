@@ -110,7 +110,7 @@
 // };
 import { reactive, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { useBudgetStore } from '@/stores/budgetStore'; // 스토어 경로 확인!
+import { useBudgetStore } from '@/stores/budgetstore.js'; // 스토어 경로 확인!
 
 const router = useRouter();
 const budgetStore = useBudgetStore(); // Pinia 스토어 가져오기
@@ -136,7 +136,7 @@ const categoryList = computed(() => {
 });
 
 const goBack = () => {
-  router.push('/transaction');
+  router.push('/transaction/all');
 };
 
 // 3. 저장 함수 수정 (async 추가)
@@ -151,7 +151,7 @@ const saveTransaction = async () => {
 
   if (success) {
     alert('가계부에 잘 저장되었습니다!');
-    router.push('/transaction');
+    router.push('/transaction/all');
   } else {
     alert('저장 실패! 다시 시도해주세요.');
   }

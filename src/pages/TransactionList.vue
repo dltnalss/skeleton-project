@@ -42,10 +42,21 @@ const states = reactive({ MyList: [] });
 const fetchMyList = async () => {
   try {
     const queryParams = {};
-
-    if (route.name !== 'all') {
-      queryParams.type = route.name;
+    // transaction 뺴야함
+    // if (route.name && route.name !== 'transaction/all') {
+    //   const typeOnly = route.name.split('/')[1]; // 'transaction/income' -> 'income'
+    //   queryParams.type = typeOnly;
+    // }
+    console.log(route.name);
+    if (route.name && route.name !== 'transaction/all') {
+      const typeOnly = route.name.includes('/')
+        ? route.name.split('/')[1]
+        : route.name;
+      queryParams.type = typeOnly;
     }
+    // if (route.name !== 'transaction/all') {
+    //   queryParams.type = route.name;
+    // }
     const response = await axios.get(BASEURI, { params: queryParams });
 
     if (response.status == 200) {
@@ -56,7 +67,6 @@ const fetchMyList = async () => {
     states.MyList = [];
   }
 };
-fetchMyList();
 const deleteList = async (List) => {
   if (!confirm('정말 이 내역을 삭제하시겠습니까 ?')) return;
   try {
@@ -75,6 +85,15 @@ const deleteList = async (List) => {
     alert('에러발생 : ' + e);
   }
 };
+watch(
+  () => route.name,
+  () => {
+    fetchMyList();
+  },
+  { immediate: true },
+);
+fetchMyList();
+
 // const editList = async ({}) => {
 //   if (!confirm('정말 이 내역을 삭제하시겠습니까 ?')) return;
 //   try {
