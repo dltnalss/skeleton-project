@@ -6,10 +6,6 @@
     많관부
   </div>
 
-  <!-- <button id="plusButton">
-    <router-link to="/addList">+</router-link>
-  </button> -->
-
   <nav class="navbar app-bottom-nav bg-dark navbar-dark fixed-bottom">
     <ul
       class="navbar-nav d-flex flex-row w-100 justify-content-around text-center"
@@ -41,7 +37,7 @@
       <li class="nav-item flex-fill">
         <router-link
           class="nav-link nav-label d-flex align-items-center justify-content-center gap-2"
-          to="/transaction"
+          :to="{ name: 'transaction/all' }"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
