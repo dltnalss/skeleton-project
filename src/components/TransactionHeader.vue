@@ -88,6 +88,7 @@ const goToTab = (key) => {
   padding: 1rem;
   background: #e8e6f8;
   min-height: 100vh;
+  margin-bottom: 60px;
 }
 .tab-group {
   display: flex;
