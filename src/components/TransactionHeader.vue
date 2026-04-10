@@ -1,18 +1,21 @@
 <template>
   <div class="wrapper">
-    <!-- 탭 버튼 (전체/수입/지출) -->
     <div class="tab-group">
       <button
         v-for="tab in tabs"
         :key="tab.key"
-        :class="['tab-btn', tab.key, { active: activeTab === tab.key }]"
+        :class="['tab-btn', tab.classStyle, { active: activeTab === tab.key }]"
         @click="goToTab(tab.key)"
       >
         {{ tab.label }}
       </button>
     </div>
 
-    <!-- ■ 필터 바: 날짜 범위 + 카테고리 -->
+    <!-- ★ 추가 (15~38줄): 필터 바 -->
+    <!--
+      기존에 <router-view /> 가 있던 자리를 필터 바로 교체
+      router-view는 삭제 (TransactionList와 역할 중복이므로)
+    -->
     <div style="margin-bottom: 12px">
       <div>
         <label
@@ -36,63 +39,110 @@
       </div>
     </div>
 
-    <!-- ■ 거래 목록 카드 -->
+    <!-- ★ 추가 (40~67줄): 거래 목록 카드 -->
+    <!--
+      기존 주석처리된 카드 영역을 새로 작성
+      pagedList = 탭필터 + 날짜필터 + 카테고리필터 + 페이지네이션 적용된 목록
+    -->
     <div class="card">
+      <!-- 구분란 (헤더) -->
+      <div
+        class="entry"
+        style="font-weight: bold; border-bottom: 2px solid #333"
+      >
+        <span style="width: 35px; text-align: center">No.</span>
+        <span style="width: 100px">날짜</span>
+        <span style="width: 120px">카테고리</span>
+        <span style="flex: 1; text-align: right">금액</span>
+        <span style="width: 80px; text-align: center">관리</span>
+      </div>
+
       <p v-if="pagedList.length === 0" class="empty">내역이 없습니다</p>
 
       <!-- 각 거래 항목 -->
-      <div v-for="entry in pagedList" :key="entry.id" class="entry">
-        <div>
-          <span style="color: #999; font-size: 12px; margin-right: 10px">
-            {{ entry.date }}
-          </span>
-          <span style="margin-right: 8px">{{ getCategoryName(entry) }}</span>
-          <span>{{ entry.memo }}</span>
-        </div>
+      <div v-for="(entry, index) in pagedList" :key="entry.id" class="entry">
+        <span style="width: 35px; text-align: center">
+          {{ (currentPage - 1) * perPage + index + 1 }}
+        </span>
+        <span style="width: 100px; color: #999; font-size: 12px">
+          {{ entry.date }}
+        </span>
+        <span style="width: 120px">
+          {{ getCategoryName(entry) }}
+          <div style="font-size: 11px; color: #aaa">{{ entry.memo }}</div>
+        </span>
+        <span style="flex: 1; text-align: right" :class="entry.type">
+          {{ entry.type === 'income' ? '+' : '-' }}₩{{
+            entry.amount.toLocaleString()
+          }}
+        </span>
+        <span
+          style="
+            width: 80px;
+            text-align: center;
+            display: flex;
+            gap: 4px;
+            justify-content: center;
+          "
+        >
+          <button
+            @click="goEdit(entry.id)"
+            style="font-size: 11px; padding: 2px 5px"
+          >
+            수정
+          </button>
+          <button
+            @click="deleteItem(entry.id)"
+            style="font-size: 11px; padding: 2px 5px"
+          >
+            삭제
+          </button>
+        </span>
       </div>
     </div>
+  </div>
 
-    <!-- ■ 페이지네이션 -->
-    <div v-if="totalPages > 1" style="text-align: center; margin-top: 12px">
-      <button @click="currentPage--" :disabled="currentPage <= 1">이전</button>
-      <span style="margin: 0 12px">{{ currentPage }} / {{ totalPages }}</span>
-      <button @click="currentPage++" :disabled="currentPage >= totalPages">
-        다음
-      </button>
-    </div>
+  <!-- ★ 추가 (69~75줄): 페이지네이션 -->
+  <div v-if="totalPages > 1" style="text-align: center; margin-top: 12px">
+    <button @click="currentPage--" :disabled="currentPage <= 1">이전</button>
+    <span style="margin: 0 12px">{{ currentPage }} / {{ totalPages }}</span>
+    <button @click="currentPage++" :disabled="currentPage >= totalPages">
+      다음
+    </button>
   </div>
 </template>
 
 <script setup>
+// ★ 수정 (80줄): watch 추가
 import { ref, computed, onMounted, watch } from 'vue';
-import { useRouter } from 'vue-router';
 import axios from 'axios';
+import { useRouter } from 'vue-router';
+
+const tabs = [
+  { key: 'transaction/all', classStyle: 'all', label: '전체' },
+  { key: 'transaction/income', classStyle: 'income', label: '수입' },
+  { key: 'transaction/expense', classStyle: 'expense', label: '지출' },
+];
 
 const router = useRouter();
+const activeTab = ref(tabs[0].key);
 
-// ========== 탭 ==========
-const tabs = [
-  { key: 'all', label: '전체' },
-  { key: 'income', label: '수입' },
-  { key: 'expense', label: '지출' },
-];
-const activeTab = ref('all');
-
-// ========== 데이터 ==========
+// ★ 추가 (93~95줄): 카테고리 데이터 저장용 변수
 const entries = ref([]);
 const incomeCategories = ref([]);
 const expenseCategories = ref([]);
 
-// ========== 필터 ==========
+// ★ 추가 (97~99줄): 필터 변수
 const filterStartDate = ref('');
 const filterEndDate = ref('');
 const filterCategory = ref('');
 
-// ========== 페이지네이션 ==========
+// ★ 추가 (101~102줄): 페이지네이션 변수
 const currentPage = ref(1);
 const perPage = 15;
 
-// ========== 데이터 가져오기 ==========
+// ★ 추가 (104~119줄): 데이터 가져오기 (budget + 카테고리)
+// 기존 주석처리된 onMounted를 대체
 const fetchData = async () => {
   try {
     const [budgetRes, incRes, expRes] = await Promise.all([
@@ -109,7 +159,7 @@ const fetchData = async () => {
 };
 onMounted(fetchData);
 
-// ========== 카테고리 이름 찾기 ==========
+// ★ 추가 (121~126줄): 카테고리 id → 이름 변환
 const getCategoryName = (item) => {
   const list =
     item.type === 'income' ? incomeCategories.value : expenseCategories.value;
@@ -117,41 +167,48 @@ const getCategoryName = (item) => {
   return found ? found.name : '';
 };
 
-// ========== 전체 카테고리 (필터 드롭다운용) ==========
+// ★ 추가 (128~130줄): 필터 드롭다운용 전체 카테고리
 const allCategories = computed(() => {
   return [...incomeCategories.value, ...expenseCategories.value];
 });
 
-// ========== 탭 전환 ==========
+// ★ 수정 (132~137줄): goToTab에 필터 초기화 추가
 const goToTab = (key) => {
   activeTab.value = key;
   currentPage.value = 1;
   filterCategory.value = '';
+  router.push('/' + key);
 };
 
-// ========== 탭 + 필터 적용된 목록 ==========
+// ★ 추가 (139~157줄): 탭 + 날짜 + 카테고리 필터 적용
 const filteredList = computed(() => {
-  return entries.value.filter((item) => {
-    // 탭 필터 (전체/수입/지출)
-    if (activeTab.value !== 'all' && item.type !== activeTab.value) {
-      return false;
-    }
-    // 날짜 필터
-    if (filterStartDate.value && item.date < filterStartDate.value) {
-      return false;
-    }
-    if (filterEndDate.value && item.date > filterEndDate.value) {
-      return false;
-    }
-    // 카테고리 필터
-    if (filterCategory.value && item.category !== filterCategory.value) {
-      return false;
-    }
-    return true;
-  });
+  return (
+    entries.value
+      .filter((item) => {
+        // 탭 필터: 'transaction/income' → 'income'만 꺼내서 비교
+        const tabType = activeTab.value.split('/').pop();
+        if (tabType !== 'all' && item.type !== tabType) {
+          return false;
+        }
+        // 날짜 필터
+        if (filterStartDate.value && item.date < filterStartDate.value) {
+          return false;
+        }
+        if (filterEndDate.value && item.date > filterEndDate.value) {
+          return false;
+        }
+        // 카테고리 필터
+        if (filterCategory.value && item.category !== filterCategory.value) {
+          return false;
+        }
+        return true;
+      })
+      // ★ 날짜 내림차순 정렬 (최신이 위에 옴)
+      .sort((a, b) => new Date(b.date) - new Date(a.date))
+  );
 });
 
-// ========== 페이지네이션 ==========
+// ★ 추가 (159~162줄): 페이지네이션
 const pagedList = computed(() => {
   const start = (currentPage.value - 1) * perPage;
   return filteredList.value.slice(start, start + perPage);
@@ -161,7 +218,7 @@ const totalPages = computed(() => {
   return Math.ceil(filteredList.value.length / perPage);
 });
 
-// ========== 필터 초기화 ==========
+// ★ 추가 (167~172줄): 필터 초기화
 const resetFilter = () => {
   filterStartDate.value = '';
   filterEndDate.value = '';
@@ -169,17 +226,17 @@ const resetFilter = () => {
   currentPage.value = 1;
 };
 
-// ========== 필터 바뀌면 1페이지로 ==========
+// ★ 추가 (174~176줄): 필터 바뀌면 1페이지로
 watch([filterStartDate, filterEndDate, filterCategory], () => {
   currentPage.value = 1;
 });
 
-// ========== 수정 ==========
+// ★ 추가 (178~180줄): 수정 버튼
 const goEdit = (id) => {
   router.push('/addList?edit=' + id);
 };
 
-// ========== 삭제 ==========
+// ★ 추가 (182~190줄): 삭제 버튼
 const deleteItem = async (id) => {
   if (!confirm('정말 삭제하시겠습니까?')) return;
   try {
@@ -200,7 +257,7 @@ const deleteItem = async (id) => {
   padding: 1rem;
   background: #e8e6f8;
   min-height: 100vh;
-  margin-bottom: 65px;
+  margin-bottom: 60px;
 }
 .tab-group {
   display: flex;
@@ -239,10 +296,11 @@ const deleteItem = async (id) => {
 }
 .entry {
   display: flex;
-  justify-content: space-between;
+  align-items: center;
   padding: 10px 0;
   border-bottom: 0.5px solid #f0f0f0;
   font-size: 14px;
+  gap: 8px;
 }
 .entry .income {
   color: #4a90c4;

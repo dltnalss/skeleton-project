@@ -1,62 +1,6 @@
 {
   "budget": [
     {
-      "id": "2",
-      "date": "2026-04-01",
-      "type": "income",
-      "amount": 300000,
-      "category": "12",
-      "memo": "4월 KDT훈련수당"
-    },
-    {
-      "id": "3",
-      "date": "2026-04-01",
-      "type": "income",
-      "amount": 200000,
-      "category": "13",
-      "memo": "4월 KB지원금"
-    },
-    {
-      "id": "4",
-      "date": "2026-04-02",
-      "type": "expense",
-      "amount": 12000,
-      "category": "21",
-      "memo": "회사 근처 한식 점심"
-    },
-    {
-      "id": "5",
-      "date": "2026-04-02",
-      "type": "expense",
-      "amount": 1500,
-      "category": "22",
-      "memo": "버스 출퇴근"
-    },
-    {
-      "id": "6",
-      "date": "2026-04-03",
-      "type": "expense",
-      "amount": 45000,
-      "category": "24",
-      "memo": "영화 + 팝콘"
-    },
-    {
-      "id": "7",
-      "date": "2026-04-03",
-      "type": "expense",
-      "amount": 8500,
-      "category": "21",
-      "memo": "편의점 저녁"
-    },
-    {
-      "id": "8",
-      "date": "2026-04-04",
-      "type": "expense",
-      "amount": 32000,
-      "category": "23",
-      "memo": "감기약 처방"
-    },
-    {
       "id": "10",
       "date": "2026-04-05",
       "type": "expense",
@@ -95,22 +39,6 @@
       "amount": 6500,
       "category": "21",
       "memo": "김밥천국 점심"
-    },
-    {
-      "id": "15",
-      "date": "2026-03-01",
-      "type": "income",
-      "amount": 820000,
-      "category": "11",
-      "memo": "3월 구직촉진수당"
-    },
-    {
-      "id": "16",
-      "date": "2026-03-01",
-      "type": "income",
-      "amount": 300000,
-      "category": "12",
-      "memo": "3월 KDT훈련수당"
     },
     {
       "id": "17",
@@ -177,44 +105,92 @@
       "memo": "카페 + 디저트"
     },
     {
-      "date": "2026-03-31",
+      "date": "2026-04-08",
       "type": "expense",
-      "amount": 243,
+      "amount": 30000,
+      "category": "23",
+      "memo": "병원비",
+      "id": "MXcqKn5XPvA"
+    },
+    {
+      "date": "2026-04-08",
+      "type": "expense",
+      "amount": 30000,
+      "category": "23",
+      "memo": "병원비",
+      "id": "Eh75xsXPQFg"
+    },
+    {
+      "date": "2026-04-08",
+      "type": "expense",
+      "amount": 11,
       "category": "21",
-      "memo": "돼지국밥",
-      "id": "YZGostt"
+      "memo": "11",
+      "id": "k1UMdMQdJWw"
     },
     {
-      "date": "2026-04-11",
+      "date": "2026-04-08",
       "type": "expense",
-      "amount": 7800,
-      "category": "22",
-      "memo": "택시",
-      "id": "9-vI5XS"
-    },
-    {
-      "date": "2026-04-09",
-      "type": "expense",
-      "amount": 2424234,
+      "amount": 11,
       "category": "21",
-      "memo": "fdfdfads",
-      "id": "nDb5bsj"
+      "memo": "11",
+      "id": "8AyKyIVY64E"
     },
     {
-      "date": "2026-04-17",
-      "type": "expense",
-      "amount": 24341234,
-      "category": "21",
-      "memo": "fgga",
-      "id": "R8_M-mE"
-    },
-    {
-      "date": "2026-04-01",
+      "date": "2026-04-08",
       "type": "income",
+      "amount": 1000,
+      "category": "14",
+      "memo": "gd",
+      "id": "lYMR7SqmN7A"
+    },
+    {
+      "date": "2026-04-07",
+      "type": "expense",
+      "amount": 5000,
+      "category": "21",
+      "memo": "싸다김밥",
+      "id": "-_1BvYf7xVg"
+    },
+    {
+      "date": "2026-04-08",
+      "type": "expense",
       "amount": 50000,
-      "category": "12",
-      "memo": "아빠용돈",
-      "id": "nu8a75BxLAM"
+      "category": "21",
+      "memo": "떡볶이",
+      "id": "VNil8pJYKvU"
+    },
+    {
+      "date": "2026-04-08",
+      "type": "expense",
+      "amount": 1000,
+      "category": "22",
+      "memo": "버스비 톨비",
+      "id": "AQ61mN1O6NM"
+    },
+    {
+      "type": "income",
+      "date": "2026-04-10",
+      "amount": 123142,
+      "category": "11",
+      "memo": "",
+      "id": "ukVshHs"
+    },
+    {
+      "type": "expense",
+      "date": "2026-04-10",
+      "amount": 1231323,
+      "category": "21",
+      "memo": "ewrwer",
+      "id": "Jzwb1dr"
+    },
+    {
+      "type": "expense",
+      "date": "2026-04-10",
+      "amount": 123,
+      "category": "22",
+      "memo": "qw",
+      "id": "S9N8Izy"
     }
   ],
   "incomeCategory": [

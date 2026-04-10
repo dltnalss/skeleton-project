@@ -98,7 +98,7 @@
       <li class="nav-item flex-fill">
         <router-link
           class="nav-link nav-label d-flex align-items-center justify-content-center gap-2"
-          to="/transaction"
+          :to="{ name: 'transaction/all' }"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
