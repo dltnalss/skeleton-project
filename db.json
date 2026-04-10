@@ -1,12 +1,28 @@
 {
   "budget": [
     {
+      "id": "10",
+      "date": "2026-04-05",
+      "type": "expense",
+      "amount": 3000,
+      "category": "22",
+      "memo": "지하철 왕복"
+    },
+    {
       "id": "11",
       "date": "2026-04-05",
       "type": "income",
       "amount": 50000,
       "category": "14",
       "memo": "부모님 용돈"
+    },
+    {
+      "id": "12",
+      "date": "2026-04-06",
+      "type": "expense",
+      "amount": 28000,
+      "category": "21",
+      "memo": "치킨 배달"
     },
     {
       "id": "13",
@@ -97,12 +113,36 @@
       "id": "MXcqKn5XPvA"
     },
     {
+      "date": "2026-04-08",
+      "type": "expense",
+      "amount": 30000,
+      "category": "23",
+      "memo": "병원비",
+      "id": "Eh75xsXPQFg"
+    },
+    {
+      "date": "2026-04-08",
+      "type": "income",
+      "amount": 1000,
+      "category": "14",
+      "memo": "gd",
+      "id": "lYMR7SqmN7A"
+    },
+    {
       "date": "2026-04-07",
       "type": "expense",
       "amount": 5000,
       "category": "21",
       "memo": "싸다김밥",
       "id": "-_1BvYf7xVg"
+    },
+    {
+      "date": "2026-04-08",
+      "type": "expense",
+      "amount": 50000,
+      "category": "21",
+      "memo": "떡볶이",
+      "id": "VNil8pJYKvU"
     },
     {
       "date": "2026-04-08",
@@ -114,147 +154,11 @@
     },
     {
       "type": "income",
-      "date": "2026-01-01",
-      "amount": 1000000,
-      "category": "14",
-      "memo": "세뱃돈",
-      "id": "01Haac2"
-    },
-    {
-      "type": "expense",
-      "date": "2026-01-10",
-      "amount": 50000,
-      "category": "21",
-      "memo": "연초 술모임",
-      "id": "4ss2yhZ"
-    },
-    {
-      "type": "expense",
-      "date": "2026-01-11",
-      "amount": 30000,
-      "category": "25",
-      "memo": "올리브영",
-      "id": "XTDtjru"
-    },
-    {
-      "type": "expense",
-      "date": "2026-01-13",
-      "amount": 3100,
-      "category": "22",
-      "memo": "지하철비",
-      "id": "Ua5VlNc"
-    },
-    {
-      "type": "expense",
-      "date": "2026-01-17",
-      "amount": 14000,
-      "category": "24",
-      "memo": "영화비",
-      "id": "v8IGHwo"
-    },
-    {
-      "type": "income",
-      "date": "2026-02-01",
-      "amount": 500000,
-      "category": "14",
-      "memo": "생일축하",
-      "id": "YViooVM"
-    },
-    {
-      "type": "expense",
-      "date": "2026-02-04",
-      "amount": 20000,
-      "category": "25",
-      "memo": "원준이생일선물",
-      "id": "_rBI6MY"
-    },
-    {
-      "type": "expense",
-      "date": "2026-02-14",
-      "amount": 30000,
-      "category": "25",
-      "memo": "발렌타인데이",
-      "id": "QfgomHN"
-    },
-    {
-      "type": "expense",
-      "date": "2026-02-15",
-      "amount": 95000,
-      "category": "22",
-      "memo": "교통대금",
-      "id": "dq4qm2z"
-    },
-    {
-      "type": "expense",
-      "date": "2026-02-19",
-      "amount": 27000,
-      "category": "23",
-      "memo": "독감진단",
-      "id": "UKMNG9T"
-    },
-    {
-      "type": "expense",
-      "date": "2026-02-18",
-      "amount": 15000,
-      "category": "21",
-      "memo": "죽",
-      "id": "DGnjmKJ"
-    },
-    {
-      "type": "income",
-      "date": "2026-02-28",
-      "amount": 1000000,
-      "category": "14",
-      "memo": "졸업축하",
-      "id": "0DA2dZf"
-    },
-    {
-      "type": "income",
-      "date": "2026-03-13",
-      "amount": 600000,
-      "category": "11",
-      "memo": "국취제",
-      "id": "0PEu01v"
-    },
-    {
-      "type": "income",
       "date": "2026-04-10",
-      "amount": 600000,
+      "amount": 123142,
       "category": "11",
-      "memo": "국취제",
-      "id": "Zk-DOGT"
-    },
-    {
-      "type": "expense",
-      "date": "2026-04-07",
-      "amount": 100000,
-      "category": "25",
-      "memo": "봄 옷",
-      "id": "bG0c-_j"
-    },
-    {
-      "type": "expense",
-      "date": "2026-01-15",
-      "amount": 80000,
-      "category": "25",
-      "memo": "겨울 이불",
-      "id": "XcsrlMt"
-    },
-    {
-      "type": "expense",
-      "date": "2026-03-18",
-      "amount": 200000,
-      "category": "23",
-      "memo": "다리 부상",
-      "id": "QGkMTzD"
-    },
-    {
-      "type": "expense",
-      "date": "2026-03-05",
-      "amount": 50000,
-      "category": "21",
-      "memo": "빕스",
-      "id": "1DR7VqL"
+      "memo": "",
+      "id": "ukVshHs"
     }
   ],
   "incomeCategory": [
