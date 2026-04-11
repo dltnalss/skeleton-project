@@ -25,6 +25,11 @@ const router = createRouter({
       component: Summary,
     },
     {
+      path: '/add',
+      name: 'AddList',
+      component: () => import('@/pages/AddList.vue'),
+    },
+    {
       path: '/transaction',
       name: 'transaction',
       component: Transaction,
@@ -46,12 +51,6 @@ const router = createRouter({
       path: '/detailedit/:id',
       name: 'detailedit/id',
       component: DetailEdit,
-    },
-    // 기존 routes 배열 안에 아래 객체를 추가하세요
-    {
-      path: '/add',
-      name: 'AddList',
-      component: () => import('@/pages/AddList.vue'),
     },
   ],
 });

@@ -12,7 +12,7 @@
     <!--  1. 타이틀  -->
 
     <h5>나의 가계부</h5>
-    <p>{{ profile.name }}님, 오늘도 알뜰한 하루 되세요!</p>
+    <p>{{ profile.name }}님, 오늘도 많이 관리하고 부자되세요!</p>
 
     <!--  2. 연도/월 선택  -->
     <div>
@@ -321,10 +321,11 @@ export default {
     // ========== 페이지 이동 ==========
     // 거래 항목 클릭 시 상세 페이지로 이동
     const goToDetail = (id) => {
-      // router.push = 프로그래밍적으로 페이지 이동
-      // name: 'transactionDetail' → router/index.js에 정의한 라우트 이름
-      // params: { id } → URL의 :id 자리에 실제 id 값을 넣음
-      router.push({ name: 'transactionDetail', params: { id } });
+      router.push({
+        name: 'detailedit/id',
+        params: { id },
+        query: { from: 'home' },
+      });
     };
 
     // ========== API 호출 (데이터 가져오기) ==========

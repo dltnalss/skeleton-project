@@ -1,7 +1,10 @@
 <template>
   <div class="card card-body">
     <h2>가계부 내역</h2>
-    <TransactionHeader />
+    <div class="transaction-container">
+      <TransactionHeader />
+      <router-view />
+    </div>
   </div>
 
   <!-- 플러스 버튼 -->
@@ -40,5 +43,15 @@ import TransactionHeader from '@/components/TransactionHeader.vue';
   display: block;
   line-height: 1;
   transform: translateY(-2px);
+}
+.transaction-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 1rem;
+  background: #e8e6f8;
+  min-height: 60vh;
+  border-radius: 10px;
+  margin-bottom: 60px;
 }
 </style>
