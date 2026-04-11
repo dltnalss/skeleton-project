@@ -14,9 +14,9 @@ export const useBudgetStore = defineStore('budget', {
   actions: {
     // 수입/지출 카테고리 정보 로드
     async initData() {
-      console.log('현재 주소:', BASE_URL);
+      console.log('현재 주소:', BASEURL);
       try {
-        const API_ROOT = BASE_URL.replace('/budget', '');
+        const API_ROOT = BASEURL.replace('/budget', '');
         const [income, expense] = await Promise.all([
           axios.get(`${API_ROOT}/incomeCategory`),
           axios.get(`${API_ROOT}/expenseCategory`),
@@ -44,15 +44,20 @@ export const useBudgetStore = defineStore('budget', {
     // edit 하는 기능 axios.put 하는 중
     async EditTransaction(updateList, successCallback) {
       try {
-        const { id, date, type, amount, category, memo } = updateList;
-        const payload = { id, date, type, amount, category, memo };
-        const response = await axios.put(BASEURL + `/${id}`, payload);
+        // const { id, date, type, amount, category, memo } = updateList;
+        // const payload = { id, date, type, amount, category, memo };
+        console.log(`${BASEURL}/budget/${updateList.id}`);
+        const response = await axios.put(
+          `${BASEURL}/budget/${updateList.id}`,
+          updateList,
+        );
+
         if (response.status == 200) {
           let index = this.transactionList.findIndex(
-            (budget) => budget.id === id,
+            (budget) => budget.id === updateList.id,
           );
           if (index !== -1) {
-            this.transactionList[index] = { ...payload };
+            this.transactionList[index] = { ...updateList };
           }
           if (successCallback) successCallback();
         } else {
