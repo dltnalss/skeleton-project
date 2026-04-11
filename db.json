@@ -121,12 +121,12 @@
       "id": "AQ61mN1O6NM"
     },
     {
-      "type": "expense",
+      "id": "S9N8Izy",
       "date": "2026-04-10",
-      "amount": 123,
+      "type": "expense",
+      "amount": 12345,
       "category": "22",
-      "memo": "qw",
-      "id": "S9N8Izy"
+      "memo": "qw"
     },
     {
       "id": "u8zthoWyX9g",
