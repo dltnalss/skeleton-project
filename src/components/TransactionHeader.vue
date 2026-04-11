@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div class="tab-only-group">
     <div class="tab-group">
       <button
         v-for="tab in tabs"
@@ -10,9 +10,6 @@
         {{ tab.label }}
       </button>
     </div>
-
-    <!-- TransactionList가 여기에 router-view로 표시됨 -->
-    <router-view></router-view>
   </div>
 </template>
 
@@ -37,15 +34,12 @@ const goToTab = (key) => {
 </script>
 
 <style scoped>
-.wrapper {
+.tab-only-group {
   display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding: 1rem;
-  background: #e8e6f8;
-  min-height: 60vh;
-  margin-bottom: 60px;
+  justify-content: flex-end;
+  margin-bottom: 12px;
 }
+
 .tab-group {
   display: flex;
   align-self: flex-end;

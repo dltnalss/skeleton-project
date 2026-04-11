@@ -321,7 +321,11 @@ export default {
     // ========== 페이지 이동 ==========
     // 거래 항목 클릭 시 상세 페이지로 이동
     const goToDetail = (id) => {
-      router.push({ name: 'transactionDetail', params: { id } });
+      router.push({
+        name: 'detailedit/id',
+        params: { id },
+        query: { from: 'home' },
+      });
     };
 
     // ========== API 호출 (데이터 가져오기) ==========

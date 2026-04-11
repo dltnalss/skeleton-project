@@ -1,6 +1,6 @@
 <template>
-  <div class="add-list-container">
-    <h2>내역 수정하기</h2>
+  <div class="edit-list-container">
+    <h2 class="border-primary border-4 fw-bold">내역 수정하기</h2>
 
     <div v-if="!isLoaded">
       <p>데이터를 불러오는 중입니다...</p>
@@ -50,18 +50,20 @@
 </template>
 
 <script setup>
-import { reactive, computed, onMounted, ref } from 'vue';
+import { ref, reactive, computed, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router'; // 파라미터 받기 위해 useRoute 추가
 import { useBudgetStore } from '@/stores/budgetstore.js';
 import axios from 'axios'; // 서버 통신용
-const { transactionList, EditTransaction } = useBudgetStore();
+
 const router = useRouter();
 const route = useRoute();
 const budgetStore = useBudgetStore();
+const { transactionList, EditTransaction } = useBudgetStore();
 
 // 1. 라우터 주소창에서 넘어온 ID 값을 가져옵니다. (예: /edit/3 이면 '3'을 가져옴)
 const targetId = route.params.id;
 const BASEURI = '/api/budget';
+
 const updateList = reactive({
   id: '',
   date: '',
@@ -82,7 +84,7 @@ const categoryList = computed(() => {
 });
 
 const goBack = () => {
-  router.push('/transaction/all');
+  router.push({ name: route.query.from });
 };
 
 // 2. 수정할 기존 데이터 서버에서 불러오기
@@ -100,55 +102,16 @@ const fetchDetail = async () => {
     goBack(); // 실패하면 이전 화면으로 돌려보냄
   }
 };
-// if (!editList) {
-//   router.push({ name: 'transaction/all' });
-// }
 
 //3 수정 이벤트
 
-const editList = transactionList.find(
-  (List) => List.id == currentRoute.params.id,
-);
-
-if (editList) {
-  Object.assign(updateList, editList);
-  console.log('읽어온 데이터:', updateList);
-}
-//  else {
-//   alert('해당 내역을 찾을 수 없습니다.');
-//   router.push('/transaction/all');
-// }
-console.log(editList);
 const updateTodoHandler = () => {
-  console.log(updateList);
-
-  console.log('hi    ' + route.query.from);
   EditTransaction(updateList, () => {
-    // TODO: All로 감 다른 페이지에서도 보여야함 income이랑 expense
+    alert('수정이 완료되었습니다.');
     // 이전 path 경로가 필요함
     router.push({ name: route.query.from });
   });
 };
-
-// // 3. 수정한 내용 서버로 보내서 덮어쓰기 (Update)
-// const updateTransaction = async () => {
-//   if (!updateList.date || !updateList.amount || !updateList.category) {
-//     alert('날짜, 금액, 카테고리는 꼭 입력해주세요!');
-//     return;
-//   }
-
-//   try {
-//     // axios.put을 사용하면 해당 ID의 데이터를 통째로 변경해줍니다.
-//     const response = await axios.put(`${BASEURI}/${targetId}`, updateList);
-
-//     if (response.status === 200) {
-//       alert('성공적으로 수정되었습니다!');
-//       router.push('/transaction/all');
-//     }
-//   } catch (error) {
-//     alert('수정 실패! 다시 시도해주세요.');
-//   }
-// };
 
 // 화면이 열릴 때 가장 먼저 실행되는 부분
 onMounted(() => {
@@ -158,7 +121,7 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.add-list-container {
+.edit-list-container {
   max-width: 400px;
   margin: 0 auto;
   padding: 20px;
