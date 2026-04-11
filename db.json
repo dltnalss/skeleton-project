@@ -129,12 +129,12 @@
       "id": "nIkiQDe"
     },
     {
-      "type": "income",
+      "id": "FLGvPKV",
       "date": "2026-04-15",
+      "type": "income",
       "amount": 200000,
       "category": "13",
-      "memo": "KB지원금",
-      "id": "FLGvPKV"
+      "memo": "KB지원금"
     },
     {
       "type": "income",
