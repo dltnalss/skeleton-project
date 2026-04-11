@@ -4,7 +4,7 @@
       "id": "12",
       "date": "2026-04-06",
       "type": "expense",
-      "amount": 5000023,
+      "amount": 500002342,
       "category": "21",
       "memo": "치킨 배달"
     },
@@ -28,7 +28,7 @@
       "id": "17",
       "date": "2026-03-01",
       "type": "income",
-      "amount": 20000219,
+      "amount": 20000211,
       "category": "13",
       "memo": "3월 KB지원금"
     },
@@ -105,12 +105,12 @@
       "id": "-_1BvYf7xVg"
     },
     {
-      "date": "2026-04-08",
+      "id": "VNil8pJYKvU",
+      "date": "2026-02-12",
       "type": "expense",
       "amount": 50000,
       "category": "21",
-      "memo": "떡볶이",
-      "id": "VNil8pJYKvU"
+      "memo": "떡볶이"
     },
     {
       "date": "2026-04-08",
@@ -135,6 +135,22 @@
       "amount": 1234579343443,
       "category": "11",
       "memo": ""
+    },
+    {
+      "type": "expense",
+      "date": "2026-03-05",
+      "amount": 50000,
+      "category": "21",
+      "memo": "점심",
+      "id": "BlwBB5K"
+    },
+    {
+      "id": "HduSdGu",
+      "date": "2026-02-11",
+      "type": "expense",
+      "amount": 60000,
+      "category": "22",
+      "memo": "버스"
     }
   ],
   "incomeCategory": [

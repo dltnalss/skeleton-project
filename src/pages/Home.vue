@@ -321,9 +321,6 @@ export default {
     // ========== 페이지 이동 ==========
     // 거래 항목 클릭 시 상세 페이지로 이동
     const goToDetail = (id) => {
-      // router.push = 프로그래밍적으로 페이지 이동
-      // name: 'transactionDetail' → router/index.js에 정의한 라우트 이름
-      // params: { id } → URL의 :id 자리에 실제 id 값을 넣음
       router.push({ name: 'transactionDetail', params: { id } });
     };
 

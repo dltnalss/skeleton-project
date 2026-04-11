@@ -39,75 +39,15 @@
       </div>
     </div>
 
-    <!-- ★ 추가 (40~67줄): 거래 목록 카드 -->
-    <!--
-      기존 주석처리된 카드 영역을 새로 작성
-      pagedList = 탭필터 + 날짜필터 + 카테고리필터 + 페이지네이션 적용된 목록
-    -->
-    <div class="card">
-      <!-- 구분란 (헤더) -->
-      <!-- <div
-        class="entry"
-        style="font-weight: bold; border-bottom: 2px solid #333"
-      >
-        <span style="width: 35px; text-align: center">No.</span>
-        <span style="width: 100px">날짜</span>
-        <span style="width: 120px">카테고리</span>
-        <span style="flex: 1; text-align: right">금액</span>
-        <span style="width: 80px; text-align: center">관리</span>
-      </div>
-
-      <p v-if="pagedList.length === 0" class="empty">내역이 없습니다</p> -->
-      <router-view></router-view>
-      <!-- 각 거래 항목 -->
-      <!-- <div v-for="(entry, index) in pagedList" :key="entry.id" class="entry">
-        <span style="width: 35px; text-align: center">
-          {{ (currentPage - 1) * perPage + index + 1 }}
-        </span>
-        <span style="width: 100px; color: #999; font-size: 12px">
-          {{ entry.date }}
-        </span>
-        <span style="width: 120px">
-          {{ getCategoryName(entry) }}
-          <div style="font-size: 11px; color: #aaa">{{ entry.memo }}</div>
-        </span>
-        <span style="flex: 1; text-align: right" :class="entry.type">
-          {{ entry.type === 'income' ? '+' : '-' }}₩{{
-            entry.amount.toLocaleString()
-          }}
-        </span>
-        <span
-          style="
-            width: 80px;
-            text-align: center;
-            display: flex;
-            gap: 4px;
-            justify-content: center;
-          "
-        >
-          <button
-            @click="goEdit(entry.id)"
-            style="font-size: 11px; padding: 2px 5px"
-          >
-            수정
-          </button>
-          <button
-            @click="deleteItem(entry.id)"
-            style="font-size: 11px; padding: 2px 5px"
-          >
-            삭제
-          </button>
-        </span>
-      </div> -->
-    </div>
-    <!-- ★ 추가 (69~75줄): 페이지네이션 -->
-    <div v-if="totalPages > 1" style="text-align: center; margin-top: 12px">
-      <button @click="currentPage--" :disabled="currentPage <= 1">이전</button>
-      <span style="margin: 0 12px">{{ currentPage }} / {{ totalPages }}</span>
-      <button @click="currentPage++" :disabled="currentPage >= totalPages">
-        다음
-      </button>
-    </div>
+    <router-view></router-view>
+  </div>
+  <!-- ★ 추가 (69~75줄): 페이지네이션 -->
+  <div v-if="totalPages > 1" style="text-align: center; margin-top: 12px">
+    <button @click="currentPage--" :disabled="currentPage <= 1">이전</button>
+    <span style="margin: 0 12px">{{ currentPage }} / {{ totalPages }}</span>
+    <button @click="currentPage++" :disabled="currentPage >= totalPages">
+      다음
+    </button>
   </div>
 </template>
 

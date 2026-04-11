@@ -5,8 +5,7 @@
     Home에서 거래를 클릭하면 여기로 옴
     URL: /transaction/3 → id가 3인 거래의 상세 정보
   -->
-  <div style="padding: 16px; padding-bottom: 80px;">
-
+  <div style="padding: 16px; padding-bottom: 80px">
     <!-- v-if="item" → 데이터가 로딩된 후에만 보여줌 -->
     <div v-if="item">
       <h5>거래 상세</h5>
@@ -61,16 +60,17 @@ export default {
     const route = useRoute();
     const API_BASE = 'http://localhost:3000';
 
-    const item = ref(null);               // 거래 1건의 데이터
+    const item = ref(null); // 거래 1건의 데이터
     const incomeCategories = ref([]);
     const expenseCategories = ref([]);
 
     // 카테고리 ID → 이름 변환
     const categoryName = computed(() => {
       if (!item.value) return '';
-      const list = item.value.type === 'income'
-        ? incomeCategories.value
-        : expenseCategories.value;
+      const list =
+        item.value.type === 'income'
+          ? incomeCategories.value
+          : expenseCategories.value;
       const found = list.find((c) => c.id === item.value.category);
       return found ? found.name : '기타';
     });
