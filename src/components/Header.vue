@@ -67,6 +67,8 @@
       </div>
     </div>
   </div>
+  <!-- 겹침 방지 -->
+  <div class="app-header-spacer"></div>
 
   <!-- 하단 네비게이션 바 (기존 유지) -->
   <nav class="navbar app-bottom-nav bg-dark navbar-dark fixed-bottom">
@@ -190,9 +192,15 @@ const showHelp = () => {
 .app-header {
   color: rgba(255, 255, 255, 0.55);
   height: 50px;
-  margin: 0 auto;
-  max-width: 460px;
-  width: 100%;
+  width: min(100%, 480px);
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1030;
+}
+.app-header-spacer {
+  height: 50px;
 }
 .app-bottom-nav {
   margin: 0 auto;
@@ -211,5 +219,11 @@ const showHelp = () => {
 }
 .nav-label svg {
   flex-shrink: 0;
+}
+
+@media (min-width: 481px) {
+  .app-header {
+    width: 480px;
+  }
 }
 </style>

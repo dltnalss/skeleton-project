@@ -404,15 +404,14 @@ const categoryExpenseTrend = computed(() => {
     };
   });
 
-  const maxAmount = Math.max(...entries.map((item) => item.amount), 0);
   const totalAmount = entries.reduce((sum, item) => sum + item.amount, 0);
 
   return entries
     .sort((a, b) => b.amount - a.amount)
     .map((item) => ({
       ...item,
-      ratio: maxAmount ? Math.round((item.amount / maxAmount) * 100) : 0,
       percent: totalAmount ? Math.round((item.amount / totalAmount) * 100) : 0,
+      ratio: totalAmount ? Math.round((item.amount / totalAmount) * 100) : 0,
     }));
 });
 
@@ -423,11 +422,22 @@ const selectedMonthExpenseTotal = computed(() =>
 
 <style scoped>
 .summary-page {
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(234, 179, 8, 0.18),
+      transparent 24%
+    ),
+    linear-gradient(
+      160deg,
+      rgba(255, 253, 247, 0.98) 0%,
+      rgba(244, 239, 228, 0.98) 100%
+    );
   box-sizing: border-box;
   margin: 0 auto;
   max-width: 460px;
   min-height: calc(100vh - 84px);
-  padding: 12px 0 40px;
+  padding: 18px 0 40px;
   position: relative;
   width: 100%;
 }
@@ -523,25 +533,13 @@ const selectedMonthExpenseTotal = computed(() =>
 
 .summary-card {
   animation: card-settle 1.35s cubic-bezier(0.2, 0.9, 0.2, 1) both;
-  background:
-    radial-gradient(
-      circle at top right,
-      rgba(234, 179, 8, 0.22),
-      transparent 28%
-    ),
-    linear-gradient(
-      160deg,
-      rgba(255, 253, 247, 0.96) 0%,
-      rgba(244, 239, 228, 0.98) 100%
-    );
-  border: 1px solid #eadfca;
-  border-radius: 28px;
-  box-shadow:
-    0 18px 40px rgba(87, 62, 20, 0.08),
-    0 0 0 1px rgba(255, 255, 255, 0.32) inset;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
   box-sizing: border-box;
   overflow: hidden;
-  padding: 24px;
+  padding: 0 18px 24px;
   position: relative;
   width: 100%;
   z-index: 1;
@@ -814,6 +812,7 @@ const selectedMonthExpenseTotal = computed(() =>
 
 .category-copy {
   min-width: 0;
+  width: 100%;
 }
 
 .category-title-row {
@@ -968,13 +967,13 @@ const selectedMonthExpenseTotal = computed(() =>
 
 @media (max-width: 480px) {
   .summary-page {
-    padding-left: 2px;
-    padding-right: 2px;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 14px;
   }
 
   .summary-card {
-    border-radius: 22px;
-    padding: 20px;
+    padding: 0 12px 20px;
   }
 
   .chart-head,
@@ -994,12 +993,30 @@ const selectedMonthExpenseTotal = computed(() =>
 
   .category-row {
     display: flex;
+    gap: 10px;
   }
 
   .category-title-row {
     align-items: flex-start;
     flex-direction: column;
     gap: 4px;
+  }
+
+  .category-chart {
+    gap: 12px;
+  }
+
+  .category-amount {
+    align-self: flex-end;
+    font-size: 0.9rem;
+  }
+
+  .category-bar {
+    height: 16px;
+  }
+
+  .category-fill {
+    min-width: 0;
   }
 }
 </style>
