@@ -58,7 +58,7 @@ import axios from 'axios'; // 서버 통신용
 const router = useRouter();
 const route = useRoute();
 const budgetStore = useBudgetStore();
-const { transactionList, EditTransaction } = useBudgetStore();
+const { EditTransaction } = useBudgetStore();
 
 // 1. 라우터 주소창에서 넘어온 ID 값을 가져옵니다. (예: /edit/3 이면 '3'을 가져옴)
 const targetId = route.params.id;

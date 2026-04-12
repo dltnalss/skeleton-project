@@ -29,7 +29,7 @@ const activeTab = ref(route.name || tabs[0].key);
 
 const goToTab = (key) => {
   activeTab.value = key;
-  router.push('/' + key);
+  router.push({ name: key });
 };
 </script>
 
