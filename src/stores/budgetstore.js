@@ -8,7 +8,6 @@ export const useBudgetStore = defineStore('budget', {
     budgetList: [],
     incomeCategories: [],
     expenseCategories: [],
-    transactionList: [],
   }),
 
   actions: {
@@ -44,21 +43,12 @@ export const useBudgetStore = defineStore('budget', {
     // edit 하는 기능 axios.put 하는 중
     async EditTransaction(updateList, successCallback) {
       try {
-        // const { id, date, type, amount, category, memo } = updateList;
-        // const payload = { id, date, type, amount, category, memo };
-        console.log(`${BASEURL}/budget/${updateList.id}`);
         const response = await axios.put(
           `${BASEURL}/budget/${updateList.id}`,
           updateList,
         );
 
         if (response.status == 200) {
-          let index = this.transactionList.findIndex(
-            (budget) => budget.id === updateList.id,
-          );
-          if (index !== -1) {
-            this.transactionList[index] = { ...updateList };
-          }
           if (successCallback) successCallback();
         } else {
           alert('거래 내역 변경 실패');

@@ -151,6 +151,14 @@
       "category": "25",
       "memo": "올리브영",
       "id": "3AC3XPk"
+    },
+    {
+      "id": "p8KUfV3",
+      "date": "2026-04-12",
+      "type": "expense",
+      "amount": 50034,
+      "category": "22",
+      "memo": "택시비"
     }
   ],
   "incomeCategory": [
