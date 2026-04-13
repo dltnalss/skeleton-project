@@ -1,5 +1,6 @@
 <template>
-  <div class="container">
+  <!-- 모바일 화면에서의 짤림 때문에 container를 app-shell로 변경함 -->
+  <div class="app-shell">
     <Header />
     <router-view />
   </div>
@@ -9,4 +10,8 @@
 import Header from './components/Header.vue';
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped>
+.app-shell {
+  width: 100%;
+}
+</style>

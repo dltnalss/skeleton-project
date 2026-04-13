@@ -8,14 +8,14 @@
     3. 이번 달 인사이트 (최대지출, 과소비, 절약)
     4. 최근 거래내역 5건 (클릭하면 상세 페이지로 이동)
   -->
-  <div style="padding: 16px; padding-bottom: 80px">
+  <div class="home-page">
     <!--  1. 타이틀  -->
 
     <h5>나의 가계부</h5>
     <p>{{ profile.name }}님, 오늘도 많이 관리하고 부자되세요!</p>
 
     <!--  2. 연도/월 선택  -->
-    <div>
+    <div class="home-filter-row">
       <select v-model="selectedYear">
         <option v-for="y in yearOptions" :key="y" :value="y">{{ y }}년</option>
       </select>
@@ -26,18 +26,25 @@
     </div>
 
     <!--  총수입 / 총지출 / 총계  -->
-    <div>
-      <div>
-        <span>총 수입 : </span>
-        <span style="color: blue">{{ formatMoney(totalIncome) }}</span>
+    <div class="summary-cards">
+      <div class="summary-card summary-card-income">
+        <span class="summary-label">총 수입</span>
+        <span class="summary-value summary-value-income">
+          {{ formatMoney(totalIncome) }}
+        </span>
       </div>
-      <div>
-        <span>총 지출 : </span>
-        <span style="color: red">{{ formatMoney(totalExpense) }}</span>
+      <div class="summary-card summary-card-expense">
+        <span class="summary-label">총 지출</span>
+        <span class="summary-value summary-value-expense">
+          {{ formatMoney(totalExpense) }}
+        </span>
       </div>
-      <div>
-        <span>총계 : </span>
-        <span :style="{ color: netAmount >= 0 ? 'green' : 'red' }">
+      <div class="summary-card summary-card-total">
+        <span class="summary-label">총계</span>
+        <span
+          class="summary-value"
+          :class="netAmount >= 0 ? 'summary-value-positive' : 'summary-value-negative'"
+        >
           {{ netAmount >= 0 ? '+' : '' }}{{ formatMoney(netAmount) }}
         </span>
       </div>
@@ -46,82 +53,97 @@
     <hr />
 
     <!--  3. 이번 달 인사이트  -->
-
-    <!-- 3-1. 최대 지출 카테고리 -->
-    <div>
-      <strong>최대 지출 카테고리</strong>
-      <div v-if="topExpenseCategory">
-        {{ topExpenseCategory.name }} -
-        <span style="color: red">{{
-          formatMoney(topExpenseCategory.amount)
-        }}</span>
+    <section class="insight-card">
+      <div class="insight-card-header">
+        <h6>이번 달 인사이트</h6>
+        <span class="insight-card-caption">소비 흐름을 한눈에 확인해 보세요.</span>
       </div>
-      <div v-else>지출 내역이 없습니다</div>
-    </div>
 
-    <!-- 3-2. 지난달 대비 과소비 카테고리 -->
-    <div>
-      <strong>지난달 대비 과소비</strong>
-      <div v-if="overspendCategory">
-        {{ overspendCategory.name }} -
-        <span style="color: red"
-          >+{{ formatMoney(overspendCategory.diff) }}</span
-        >
+      <!-- 3-1. 최대 지출 카테고리 -->
+      <div class="insight-item">
+        <strong class="insight-title">최대 지출 카테고리</strong>
+        <div v-if="topExpenseCategory" class="insight-value-row">
+          <span>{{ topExpenseCategory.name }}</span>
+          <span class="insight-value insight-value-expense">
+            {{ formatMoney(topExpenseCategory.amount) }}
+          </span>
+        </div>
+        <div v-else class="insight-empty">지출 내역이 없습니다</div>
       </div>
-      <div v-else>과소비 카테고리가 없습니다</div>
-    </div>
 
-    <!-- 3-3. 잘 아끼고 있는 카테고리 -->
-    <div>
-      <strong>잘 아끼고 있어요!</strong>
-      <div v-if="savedCategory">
-        {{ savedCategory.name }} -
-        <span style="color: green"
-          >-{{ formatMoney(Math.abs(savedCategory.diff)) }}</span
-        >
+      <!-- 3-2. 지난달 대비 과소비 카테고리 -->
+      <div class="insight-item">
+        <strong class="insight-title">지난달 대비 과소비</strong>
+        <div v-if="overspendCategory" class="insight-value-row">
+          <span>{{ overspendCategory.name }}</span>
+          <span class="insight-value insight-value-expense">
+            +{{ formatMoney(overspendCategory.diff) }}
+          </span>
+        </div>
+        <div v-else class="insight-empty">과소비 카테고리가 없습니다</div>
       </div>
-      <div v-else>비교할 지난달 데이터가 없습니다</div>
-    </div>
+
+      <!-- 3-3. 잘 아끼고 있는 카테고리 -->
+      <div class="insight-item insight-item-last">
+        <strong class="insight-title">잘 아끼고 있어요!</strong>
+        <div v-if="savedCategory" class="insight-value-row">
+          <span>{{ savedCategory.name }}</span>
+          <span class="insight-value insight-value-save">
+            -{{ formatMoney(Math.abs(savedCategory.diff)) }}
+          </span>
+        </div>
+        <div v-else class="insight-empty">비교할 지난달 데이터가 없습니다</div>
+      </div>
+    </section>
 
     <hr />
 
     <!--  4. 최근 거래내역 5건  -->
-    <h6>최근 거래내역</h6>
-
-    <div
-      v-for="item in recentTransactions"
-      :key="item.id"
-      @click="goToDetail(item.id)"
-      :style="{
-        padding: '10px',
-        marginBottom: '8px',
-        backgroundColor: item.type === 'income' ? '#e8f0fe' : '#fce8e6',
-        cursor: 'pointer',
-        borderRadius: '8px',
-      }"
-    >
-      <!-- 플러스 버튼 -->
-      <router-link id="plusButton" to="/addList">
-        <span class="plus-icon">+</span>
-      </router-link>
-
-      <!-- 좌측: 날짜, 카테고리, 메모 -->
-      <div>
-        <strong>{{ getCategoryName(item) }}</strong>
-        <span> | {{ formatDate(item.date) }} | {{ item.memo }}</span>
+    <section class="recent-card">
+      <div class="recent-card-header">
+        <h6>최근 거래내역</h6>
+        <span class="recent-card-caption">가장 최근에 기록한 5건을 보여드려요.</span>
       </div>
 
-      <!-- 우측: 금액 -->
-      <div :style="{ color: item.type === 'income' ? 'blue' : 'red' }">
-        <span v-if="item.type === 'income'"
-          >↑ +{{ formatMoney(item.amount) }} (수입)</span
+      <div
+        v-for="item in recentTransactions"
+        :key="item.id"
+        class="recent-item"
+        :class="
+          item.type === 'income' ? 'recent-item-income' : 'recent-item-expense'
+        "
+        @click="goToDetail(item.id)"
+      >
+        <!-- 플러스 버튼 -->
+        <router-link id="plusButton" to="/addList">
+          <span class="plus-icon">+</span>
+        </router-link>
+
+        <!-- 좌측: 날짜, 카테고리, 메모 -->
+        <div class="recent-copy">
+          <strong>{{ getCategoryName(item) }}</strong>
+          <span>{{ formatDate(item.date) }} | {{ item.memo }}</span>
+        </div>
+
+        <!-- 우측: 금액 -->
+        <div
+          class="recent-amount"
+          :class="
+            item.type === 'income' ? 'recent-amount-income' : 'recent-amount-expense'
+          "
         >
-        <span v-else>↓ -{{ formatMoney(item.amount) }} (지출)</span>
+          <span v-if="item.type === 'income'"
+            >↑ +{{ formatMoney(item.amount) }} (수입)</span
+          >
+          <span v-else>↓ -{{ formatMoney(item.amount) }} (지출)</span>
+        </div>
       </div>
-    </div>
 
-    <!-- 거래내역이 하나도 없을 때 -->
-    <div v-if="recentTransactions.length === 0">거래내역이 없습니다.</div>
+      <!-- 거래내역이 하나도 없을 때 -->
+      <div v-if="recentTransactions.length === 0" class="recent-empty">
+        거래내역이 없습니다.
+      </div>
+    </section>
   </div>
 </template>
 
@@ -333,6 +355,216 @@ onMounted(fetchData);
 </script>
 
 <style scoped>
+.home-page {
+  padding: 16px;
+  padding-bottom: 80px;
+}
+
+.home-filter-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.summary-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 6px;
+  padding: 14px 12px;
+  border-radius: 14px;
+  background: #ffffff;
+  border: 1px solid #ece8ff;
+  box-shadow: 0 8px 20px rgba(71, 56, 134, 0.06);
+}
+
+.summary-card-income {
+  background: linear-gradient(180deg, #f4f8ff 0%, #ffffff 100%);
+}
+
+.summary-card-expense {
+  background: linear-gradient(180deg, #fff5f5 0%, #ffffff 100%);
+}
+
+.summary-card-total {
+  background: linear-gradient(180deg, #f7f5ff 0%, #ffffff 100%);
+}
+
+.summary-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #7b7890;
+}
+
+.summary-value {
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.summary-value-income {
+  color: #4b78b8;
+}
+
+.summary-value-expense {
+  color: #d36f6f;
+}
+
+.summary-value-positive {
+  color: #4d8f6d;
+}
+
+.summary-value-negative {
+  color: #d36f6f;
+}
+
+.insight-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 8px;
+  padding: 16px 14px;
+  border-radius: 16px;
+  background: linear-gradient(180deg, #fffcf7 0%, #ffffff 100%);
+  border: 1px solid #ece4d8;
+  box-shadow: 0 10px 24px rgba(95, 76, 54, 0.06);
+}
+
+.insight-card-header h6 {
+  margin: 0;
+}
+
+.insight-card-caption {
+  display: inline-block;
+  margin-top: 4px;
+  font-size: 0.82rem;
+  color: #8a7a66;
+}
+
+.insight-item {
+  padding-bottom: 12px;
+  border-bottom: 1px solid #f1e7d9;
+}
+
+.insight-item-last {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.insight-title {
+  display: block;
+  margin-bottom: 6px;
+  color: #534435;
+}
+
+.insight-value-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: #3d3329;
+}
+
+.insight-value {
+  flex-shrink: 0;
+  font-weight: 700;
+}
+
+.insight-value-expense {
+  color: #d36f6f;
+}
+
+.insight-value-save {
+  color: #4d8f6d;
+}
+
+.insight-empty {
+  color: #8a7a66;
+  font-size: 0.9rem;
+}
+
+.recent-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px 14px;
+  border-radius: 16px;
+  background: linear-gradient(180deg, #ffffff 0%, #fbfaf7 100%);
+  border: 1px solid #ece7dd;
+  box-shadow: 0 10px 24px rgba(95, 76, 54, 0.05);
+}
+
+.recent-card-header h6 {
+  margin: 0;
+}
+
+.recent-card-caption {
+  display: inline-block;
+  margin-top: 4px;
+  font-size: 0.82rem;
+  color: #8a7a66;
+}
+
+.recent-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.recent-item-income {
+  background: #edf4ff;
+}
+
+.recent-item-expense {
+  background: #fff1ef;
+}
+
+.recent-copy {
+  min-width: 0;
+}
+
+.recent-copy strong {
+  display: block;
+  color: #3d3329;
+}
+
+.recent-copy span {
+  display: block;
+  color: #8a7a66;
+  font-size: 0.88rem;
+  margin-top: 2px;
+}
+
+.recent-amount {
+  flex-shrink: 0;
+  font-weight: 700;
+  text-align: right;
+}
+
+.recent-amount-income {
+  color: #4b78b8;
+}
+
+.recent-amount-expense {
+  color: #d36f6f;
+}
+
+.recent-empty {
+  color: #8a7a66;
+  font-size: 0.92rem;
+}
+
 /* 플러스 버튼 디자인 */
 #plusButton {
   border-radius: 50%;
@@ -358,5 +590,52 @@ onMounted(fetchData);
   display: block;
   line-height: 1;
   transform: translateY(-2px);
+}
+
+@media (max-width: 480px) {
+  .home-filter-row {
+    flex-wrap: wrap;
+  }
+
+  .summary-cards {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .summary-card {
+    padding: 12px 8px;
+    border-radius: 12px;
+  }
+
+  .summary-label {
+    font-size: 0.74rem;
+  }
+
+  .summary-value {
+    font-size: 0.82rem;
+  }
+
+  .insight-card {
+    padding: 14px 12px;
+  }
+
+  .insight-value-row {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .recent-card {
+    padding: 14px 12px;
+  }
+
+  .recent-item {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .recent-amount {
+    text-align: left;
+  }
 }
 </style>

@@ -1,4 +1,4 @@
-<template>
+<<template>
   <div class="tl-container">
     <!-- 필터 바 -->
     <div class="tl-filter-bar">
@@ -29,57 +29,63 @@
         </div>
       </div>
     </div>
-
-    <!-- 테이블 헤더 -->
-    <table class="tl-table">
-      <thead>
-        <tr>
-          <th class="tl-col-no">No.</th>
-          <th class="tl-col-date">날짜</th>
-          <th class="tl-col-memo">내역</th>
-          <th class="tl-col-amount">금액</th>
-          <th class="tl-col-action">수정</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-if="pagedList.length === 0">
-          <td colspan="5" class="tl-empty">내역이 없습니다</td>
-        </tr>
-        <tr v-for="(item, index) in pagedList" :key="item.id">
-          <td class="tl-col-no">
-            {{ (currentPage - 1) * perPage + index + 1 }}
-          </td>
-          <td class="tl-col-date">{{ item.date }}</td>
-          <td class="tl-col-memo">
-            <strong>{{ getCategoryName(item) }}</strong>
-            <div class="tl-memo-text">{{ item.memo }}</div>
-          </td>
-          <td
-            class="tl-col-amount"
-            :class="item.type === 'expense' ? 'text-danger' : 'text-primary'"
-          >
-            {{ item.type === 'expense' ? '-' : '+'
-            }}{{ item.amount.toLocaleString() }}원
-          </td>
-          <td class="tl-col-action">
-            <div class="tl-action-buttons">
-              <button
-                class="btn btn-sm btn-outline-primary"
-                @click="goToEdit(item.id)"
-              >
-                편집
-              </button>
-              <button
-                class="btn btn-sm btn-outline-danger"
-                @click="deleteList(item)"
-              >
-                삭제
-              </button>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <!-- 표 레이아웃 -->
+    <div class="tl-table-wrap">
+      <!-- 테이블 헤더 -->
+      <table class="tl-table">
+        <thead>
+          <tr>
+            <th class="tl-col-no">No.</th>
+            <th class="tl-col-date">날짜</th>
+            <th class="tl-col-memo">내역</th>
+            <th class="tl-col-amount">금액</th>
+            <th class="tl-col-action">수정</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-if="pagedList.length === 0">
+            <td colspan="5" class="tl-empty">내역이 없습니다</td>
+          </tr>
+          <tr v-for="(item, index) in pagedList" :key="item.id">
+            <td class="tl-col-no">
+              {{ (currentPage - 1) * perPage + index + 1 }}
+            </td>
+            <td class="tl-col-date">{{ item.date }}</td>
+            <td class="tl-col-memo">
+              <strong>{{ getCategoryName(item) }}</strong>
+              <div class="tl-memo-text">{{ item.memo }}</div>
+            </td>
+            <td
+              class="tl-col-amount"
+              :class="item.type === 'expense' ? 'text-danger' : 'text-primary'"
+            >
+              {{ item.type === 'expense' ? '-' : '+'
+              }}{{ item.amount.toLocaleString() }}원
+            </td>
+            <td class="tl-col-action">
+              <div class="tl-action-buttons">
+                <button
+                  class="btn btn-sm btn-outline-primary tl-icon-btn"
+                  @click="goToEdit(item.id)"
+                  aria-label="내역 편집"
+                  title="편집"
+                >
+                  <i class="bi bi-pencil"></i>
+                </button>
+                <button
+                  class="btn btn-sm btn-outline-danger tl-icon-btn"
+                  @click="deleteList(item)"
+                  aria-label="내역 삭제"
+                  title="삭제"
+                >
+                  <i class="bi bi-trash"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
     <!-- 페이지네이션 -->
     <div v-if="totalPages > 1" class="tl-pagination">
@@ -292,9 +298,14 @@ onMounted(() => {
   align-items: flex-end;
   padding-bottom: 1px;
 }
+.tl-table-wrap {
+  width: 100%;
+  overflow-x: hidden;
+}
 .tl-table {
   width: 100%;
   border-collapse: collapse;
+  table-layout: fixed;
   font-size: 13px;
 }
 .tl-table thead {
@@ -314,50 +325,80 @@ onMounted(() => {
   vertical-align: middle;
 }
 .tl-col-no {
-  width: 36px;
+  width: 34px;
   text-align: center;
   color: #999;
   font-size: 12px;
 }
 .tl-col-date {
-  width: 90px;
+  width: 84px;
   text-align: center;
   font-size: 12px;
   color: #777;
 }
 .tl-col-memo {
-  min-width: 80px;
+  width: auto;
+  overflow: hidden;
 }
 .tl-col-memo strong {
   font-size: 13px;
   font-weight: 700;
   display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .tl-memo-text {
   font-size: 11px;
   color: #aaa;
   margin-top: 2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .tl-col-amount {
-  width: 100px;
+  width: 86px;
   text-align: right;
   font-weight: 700;
   font-size: 13px;
   white-space: nowrap;
 }
 .tl-col-action {
-  width: 90px;
+  width: 76px;
   text-align: center;
 }
 .tl-action-buttons {
   display: flex;
-  gap: 4px;
+  gap: 3px;
   justify-content: center;
 }
 .tl-action-buttons .btn {
   font-size: 11px;
-  padding: 3px 8px;
+  padding: 3px 6px;
   white-space: nowrap;
+}
+.tl-icon-btn {
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #777;
+  border: none;
+  background-color: transparent;
+}
+.tl-icon-btn i {
+  font-size: 13px;
+  line-height: 1;
+}
+.tl-icon-btn:hover,
+.tl-icon-btn:focus,
+.tl-icon-btn:active {
+  color: #777;
+  border: none;
+  background-color: transparent;
+  box-shadow: none;
 }
 .tl-empty {
   text-align: center;
@@ -376,5 +417,68 @@ onMounted(() => {
   font-size: 13px;
   font-weight: 600;
   color: #555;
+}
+
+@media (max-width: 480px) {
+  .tl-table td {
+    padding: 8px 4px;
+  }
+
+  .tl-filter-label {
+    min-width: 0;
+  }
+
+  .tl-table th {
+    padding: 8px 4px;
+    font-size: 11px;
+  }
+
+  .tl-table {
+    font-size: 12px;
+  }
+
+  .tl-col-no {
+    width: 28px;
+    font-size: 11px;
+  }
+
+  .tl-col-date {
+    width: 70px;
+    font-size: 11px;
+  }
+
+  .tl-col-memo strong {
+    font-size: 12px;
+  }
+
+  .tl-memo-text {
+    font-size: 10px;
+  }
+
+  .tl-col-amount {
+    width: 72px;
+    font-size: 11px;
+  }
+
+  .tl-action-buttons {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .tl-action-buttons .btn {
+    font-size: 10px;
+    padding: 2px 4px;
+  }
+
+  .tl-icon-btn {
+    width: 26px;
+    height: 26px;
+    padding: 0;
+  }
+
+  .tl-icon-btn i {
+    font-size: 12px;
+  }
 }
 </style>

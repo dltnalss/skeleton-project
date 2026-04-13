@@ -56,12 +56,33 @@ const goToTab = (key) => {
 }
 .tab-btn.all,
 .tab-btn.income {
+  /* 색상 변경 */
   background: #7b6fdc;
+}
+
+.tab-btn.income {
+  background: #8db7d9;
 }
 .tab-btn.expense {
   background: #e07a7a;
 }
 .tab-btn.active {
   filter: brightness(0.8);
+}
+/* 버튼 배치 */
+@media (max-width: 480px) {
+  .tab-only-group {
+    justify-content: stretch;
+  }
+
+  .tab-group {
+    width: 100%;
+  }
+
+  .tab-btn {
+    flex: 1;
+    padding: 8px 0;
+    font-size: 13px;
+  }
 }
 </style>
