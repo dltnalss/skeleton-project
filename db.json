@@ -159,6 +159,14 @@
       "amount": 50034,
       "category": "22",
       "memo": "택시비"
+    },
+    {
+      "id": "fOrVqfa",
+      "date": "2026-04-13",
+      "type": "expense",
+      "amount": 10005,
+      "category": "21",
+      "memo": "점심"
     }
   ],
   "incomeCategory": [
