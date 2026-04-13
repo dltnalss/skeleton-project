@@ -2,7 +2,7 @@
   <!-- ■ 상단 바: 앱 이름(왼쪽) + 프로필 버튼(오른쪽) -->
   <div
     class="app-header bg-dark ps-3 pe-3 d-flex align-items-center justify-content-between"
-    style="height: 50px"
+    style="height: 64px"
   >
     <span>많관부</span>
 
@@ -11,20 +11,24 @@
       <button
         @click="toggleDropdown"
         style="
-          width: 36px;
-          height: 36px;
+          width: 60px;
+          height: 60px;
           border-radius: 50%;
-          border: 2px solid rgba(255, 255, 255, 0.4);
-          background: #6c63ff;
-          color: white;
-          font-size: 18px;
+          border: none;
+          background: transparent;
           cursor: pointer;
           display: flex;
           align-items: center;
           justify-content: center;
+          overflow: hidden;
+          padding: 0;
         "
       >
-        <i class="bi bi-person-fill"></i>
+        <img
+          :src="sealImage"
+          alt="프로필"
+          style="width: 100%; height: 100%; object-fit: cover"
+        />
       </button>
 
       <!-- 드롭다운 메뉴: showDropdown이 true일 때만 표시 -->
@@ -33,7 +37,7 @@
         style="
           position: absolute;
           right: 0;
-          top: 44px;
+          top: 62px;
           background: white;
           border: 1px solid #ddd;
           border-radius: 8px;
@@ -142,6 +146,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
+import sealImage from '../../seal-avatar.png';
 
 // ========== 프로필 데이터 ==========
 const profile = ref({ name: '', email: '' });
@@ -191,7 +196,7 @@ const showHelp = () => {
 <style scoped>
 .app-header {
   color: rgba(255, 255, 255, 0.55);
-  height: 50px;
+  height: 64px;
   width: min(100%, 480px);
   position: fixed;
   top: 0;
@@ -200,7 +205,7 @@ const showHelp = () => {
   z-index: 1030;
 }
 .app-header-spacer {
-  height: 50px;
+  height: 64px;
 }
 .app-bottom-nav {
   margin: 0 auto;
